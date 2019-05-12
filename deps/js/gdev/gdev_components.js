@@ -30,6 +30,7 @@ GDev.ECS.Components.Health = function ComponentHealth(value)
 };
 GDev.ECS.Components.Health.prototype.name = 'health';
 
+
 // Text component
 // ----------------------------------------------------------------------------
 GDev.ECS.Components.Text = function ComponentText(value)
@@ -44,6 +45,7 @@ GDev.ECS.Components.Text = function ComponentText(value)
     return this;
 };
 GDev.ECS.Components.Text.prototype.name = 'text';
+
 
 // Sprite component
 // ----------------------------------------------------------------------------
@@ -72,20 +74,18 @@ GDev.ECS.Components.Sprite = function ComponentSprite(imagePath)
 };
 GDev.ECS.Components.Sprite.prototype.name = 'sprite';
 
+
 // Script component
-// ----------------------------------------------------------------------------
 // The script must contain the following three functions:
 //  - onCreate()
 //  - onRender()
 //  - onDelete()
-// the script file must start with "({" and end with ")}"
 // So the script file must lool like as follows:
 /*
-({
     onCreate()
     {
         // your code here
-        console.log('This works');
+        console.log('This comes from onCreate');
     },
     onRender()
     {
@@ -95,8 +95,8 @@ GDev.ECS.Components.Sprite.prototype.name = 'sprite';
     {
         // your code here
     }
-})
 */
+// ----------------------------------------------------------------------------
 GDev.ECS.Components.Script = function ComponentScript(code)
 {
     code = code || "";
@@ -105,10 +105,11 @@ GDev.ECS.Components.Script = function ComponentScript(code)
 };
 GDev.ECS.Components.Script.prototype.name = 'script';
 
+
 // Scene component
-// ----------------------------------------------------------------------------
 // A scene component is a container for entities
 // This way a scene like behavior can be realised
+// ----------------------------------------------------------------------------
 GDev.ECS.Components.Scene = function ComponentScene()
 {
     // List of all entities in this scene
@@ -117,6 +118,11 @@ GDev.ECS.Components.Scene = function ComponentScene()
 };
 GDev.ECS.Components.Scene.prototype.name = 'scene';
 
+
+// MouseListener
+// Makes it possible for an entity to check if the mouse is hovering over it
+// or if it was clicked
+// ----------------------------------------------------------------------------
 GDev.ECS.Components.MouseListener = function ComponentMouseListener()
 {
     //this.isMouseHit=false;
