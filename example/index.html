@@ -11,9 +11,10 @@
 				
 				onRender()
 				{
-					if(self.components.mouseListener.isMouseDown)
+					self.components.position.x +=1;
+					if(self.components.position.x > GraphicsWidth())
 					{
-						console.log("Mouse Hit");
+						console.log("Game Over")
 					}
 				},
 				
@@ -42,12 +43,12 @@
 
 	</head>
 	<body>
-		<script type="text/javascript" src="deps/js/jbb.js"></script>
-		<script type="text/javascript" src="deps/js/gdev/gdev_main.js"></script>
-		<script type="text/javascript" src="deps/js/gdev/gdev_ecs.js"></script>
-		<script type="text/javascript" src="deps/js/gdev/gdev_components.js"></script>
-		<script type="text/javascript" src="deps/js/gdev/gdev_systems.js"></script>
-		<script type="text/javascript" src="deps/js/gdev/gdev_composer.js"></script>
+		<script type="text/javascript" src="../deps/js/jbb.js"></script>
+		<script type="text/javascript" src="../engine/gdev_main.js"></script>
+		<script type="text/javascript" src="../engine/gdev_ecs.js"></script>
+		<script type="text/javascript" src="../engine/gdev_components.js"></script>
+		<script type="text/javascript" src="../engine/gdev_systems.js"></script>
+		<script type="text/javascript" src="../engine/gdev_composer.js"></script>
 		<script type="text/javascript" src="game.js"></script>
 	</body>
 </html>

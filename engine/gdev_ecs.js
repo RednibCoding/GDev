@@ -19,7 +19,7 @@
             var entity1 = new ECS.Entity();
 
         Debug an entity:
-            entity1.print();
+            entity1.log();
 
         Create a new component (e.g. Position):
             ECS.Components.Position = function ComponentPosition(x, y)

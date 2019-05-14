@@ -1,0 +1,29 @@
+{
+    "scene": {
+        "name": "scene1",
+        "entities": {
+            "name": "entity1",
+            "components": {
+                "position": {
+                    "x": 200,
+                    "y": 200
+                },
+                "health": {
+                    "value": 20
+                },
+                "sprite": {
+                    "_imagePath": "media/image.png",
+                    "isHidden": false,
+                    "isMidHandle": true,
+                    "rotation": 0,
+                    "scaleX": 1,
+                    "scaleY": 1
+                },
+                "mouseListener": {
+                    "isMouseDown": false,
+                    "isMouseHover": false
+                }
+            }
+        }
+    }
+}

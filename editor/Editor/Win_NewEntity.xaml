@@ -1,0 +1,15 @@
+﻿<Window x:Class="Editor.Win_NewEntity"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Editor"
+        mc:Ignorable="d"
+        Title="New Entity" Height="303.231" Width="215.692" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True">
+	<Grid>
+		<Label Content="Name" HorizontalAlignment="Left" Margin="43,38,0,0" VerticalAlignment="Top" Width="91"/>
+		<TextBox x:Name="txtbxEntityName" HorizontalAlignment="Left" Height="23" Margin="43,84,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120"/>
+		<Button x:Name="btnCreateEntity"  Content="Create Entity" HorizontalAlignment="Left" Margin="65,209,0,0" VerticalAlignment="Top" Width="75" Click="Button_Create_Click"/>
+
+	</Grid>
+</Window>

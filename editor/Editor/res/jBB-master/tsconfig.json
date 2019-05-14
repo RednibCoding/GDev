@@ -1,0 +1,9 @@
+{
+	"compilerOptions" : {
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"target": "es5",
+		"outFile": "js/jbb.js",
+		"rootDir": "typescript"
+	}
+}

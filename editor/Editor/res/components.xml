@@ -1,0 +1,89 @@
+<!--
+    Here are the available components declared.
+    Note: the tag names must be exactly the same (case sensitive) as they
+        are in the engine (components.js)
+        See: "Dev.ECS.Components.MouseListener.prototype.name = mouseListener" for example
+        Also the initial values have to be defined (if possible, depends on the datatype)
+-->
+
+<components>
+	
+    <position>
+        <x>0</x>
+        <y>0</y>
+    </position>
+	
+    <health>
+        <value>0</value>
+    </health>
+	
+    <text>
+        <value>Text</value>
+        <isHidden>false</isHidden>
+        <offsetX>0</offsetX>
+        <offsetY>0</offsetY>
+    </text>
+	
+    <sprite>
+        <_imagePath></_imagePath>
+        <image>null</image>
+        <isHidden>false</isHidden>
+        <isMidHandle>false</isMidHandle>
+        <rotation>0</rotation>
+        <scaleX>1</scaleX>
+        <scaleY>1</scaleY>
+    </sprite>
+	
+    <script>
+        <code>
+					onCreate() // required - do not delete!
+					{
+					// Code here will be executed once the entity gets created
+					},
+
+					onRender() // required - do not delete!
+					{
+					// Code here will be executed every game tick
+					},
+
+					onDelete() // required - do not delete!
+					{
+					// Code here will be executed once the entity gets deleted
+					},
+
+					// You can define your own variables like this:
+					// myVar: 10,
+
+					// You can define functions too:
+					// myFunc1()
+					// {},
+
+					// Each declaration has to end with a comma!
+
+					// Whenever you access a function or variable you have defined
+					// you have to reference them with the keyword "this"!
+					// myFunc2()
+					// {
+					//	this.myVar = 20;
+					//	this.myFunc1();
+					// },
+
+					// To reference the entity this script is attached to,
+					// you have to use the keyword "self".
+					// myFunc3()
+					// {
+					//	self.components.position.x = this.myVar;
+					// },
+				</code>
+    </script>
+	
+    <scene>
+        <!-- entities  (which is a list of entities) -->
+    </scene>
+	
+    <mouseListener>
+        <isMouseDown>false</isMouseDown>
+        <isMouseHover>false</isMouseHover>
+    </mouseListener>
+	
+</components>
