@@ -65,6 +65,7 @@ GDev.ECS.Entity = function Entity()
     GDev.ECS.Entity.prototype._count++;
 
     this.type = "entity"; // Just that log output looks nicer
+    this.name = "";
     this.id = Entity.prototype._id;
 
     // The component data will live in this object
