@@ -54,7 +54,7 @@
 
 
 // ----------------------------------------------------------------------------
-GDev.ECS.Entity = function Entity()
+GDev.ECS.Entity = function Entity(name)
 {
     // Check if the static id has been initialized
     if (typeof Entity.prototype._id == 'undefined'){Entity.prototype._id = 0;}
@@ -64,8 +64,13 @@ GDev.ECS.Entity = function Entity()
     if (typeof GDev.ECS.Entity.prototype._count == 'undefined'){GDev.ECS.Entity.prototype._count = 0;}
     GDev.ECS.Entity.prototype._count++;
 
-    this.type = "entity"; // Just that log output looks nicer
-    this.name = "";
+    this.type = "entity";
+    if(typeof name === 'undefined')
+    {
+        console.error("Name of entity can not be undefined!");
+        return null;
+    }
+    this.name = name; // Must be unique
     this.id = Entity.prototype._id;
 
     // The component data will live in this object

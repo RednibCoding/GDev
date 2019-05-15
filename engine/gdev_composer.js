@@ -5,13 +5,11 @@
 
 GDev.Composer = function Composer()
 {
-    this.type = "composer"; // Just that log output looks nicer
+    // The scene that is currently active (shown)
+    this.thisScene;
 
     // List of all scenes entities
     this.scenes = {};
-
-    // The scene that is currently active (shown)
-    this.activeScene;
 
     return this;
 }
@@ -20,14 +18,14 @@ GDev.Composer.prototype.addScene = function addScene(sceneEntity)
 {
     if(sceneEntity.components.scene)
     {
-        this.scenes[sceneEntity.id] = sceneEntity;
+        this.scenes[sceneEntity.name] = sceneEntity;
     }
 };
 
 GDev.Composer.prototype.removeScene = function removeScene(sceneEntity)
 {
     GDev.ECS.Systems.FreeSceneEntity(sceneEntity);
-    delete this.scenes[sceneEntity.id];
+    delete this.scenes[sceneEntity.name];
 };
 
 GDev.Composer.prototype.addEntityToScene = function addEntityToScene(sceneEntity, newEntity)
@@ -77,29 +75,108 @@ GDev.Composer.prototype.loadSprites = function loadSprites()
     }
 }
 
-GDev.Composer.prototype.goToScene = function goToScene(scene)
+GDev.Composer.prototype.setStartSceneAsActiveScene = function setStartSceneAsActiveScene()
 {
+    var thisScene;
+    for(var id in this.scenes)
+    {
+        thisScene = this.scenes[id];
+        if(thisScene.components.scene)
+        {
+            if(thisScene.components.scene.isStartScene)
+            {
+                this.goToScene(thisScene.name);
+            }
+        }
+    }
+};
+
+GDev.Composer.prototype.goToScene = function goToScene(sceneName)
+{
+    scene = this.scenes[sceneName];
+    if(typeof scene === 'undefined')
+    {
+        console.error("Unknown scene: "+sceneName)
+    }
     // Set active scene.
     if(scene.components.scene)
     {
-        this.activeScene = scene;
+        this.thisScene = scene;
         GDev.ECS.Systems.RunScript("onCreate", scene)
     }
 };
 
-GDev.Composer.prototype.renderActiveScene = function renderActiveScene()
+GDev.Composer.prototype.onCreate = function onCreate()
+{
+    GDev.ECS.Systems.RunScript("onCreate", this.thisScene);
+    GDev.ECS.Systems.RunScripts("onCreate", this.thisScene.components.scene.entities);
+}
+
+GDev.Composer.prototype.onTick = function onTick()
 {
     // Update the attached mouse listener
-    GDev.ECS.Systems.UpdateMouseListeners(this.activeScene.components.scene.entities);
+    GDev.ECS.Systems.UpdateMouseListeners(this.thisScene.components.scene.entities);
 
     // Run the scripts
     //  of scene entity
-    GDev.ECS.Systems.RunScript("onRender", this.activeScene);
+    GDev.ECS.Systems.RunScript("onTick", this.thisScene);
     //  of all entites of scene
-    GDev.ECS.Systems.RunScripts("onRender", this.activeScene.components.scene.entities);
+    GDev.ECS.Systems.RunScripts("onTick", this.thisScene.components.scene.entities);
     // Render
     //  scene entity
-    GDev.ECS.Systems.RenderEntity(this.activeScene);
+    GDev.ECS.Systems.RenderEntity(this.thisScene);
     //  all entites of scene
-    GDev.ECS.Systems.RenderEntites(this.activeScene.components.scene.entities);
+    GDev.ECS.Systems.RenderEntites(this.thisScene.components.scene.entities);
+};
+
+GDev.Composer.prototype.serialize = function serialize()
+{
+    var composerAsString = "";
+    var thisScene;
+    for(var id in this.scenes)
+    {
+        thisScene = this.scenes[id];
+        if(thisScene.components.scene)
+        {
+            composerAsString += "\n{SCENE}:"+thisScene.name;;
+
+            var sceneEntity;
+            for(var id in thisScene.components.scene.entities)
+            {
+                sceneEntity = thisScene.components.scene.entities[id];
+                composerAsString += "\n\t{ENTITY}:"+sceneEntity.name;
+
+                for (var component in sceneEntity.components) 
+                {
+                    composerAsString += "\n\t\t{COMPONENT}:"+component;
+
+                    if(component == "script")
+                    {
+                        composerAsString += "\n\t\t\t{PROPERTY}:code="+sceneEntity.components[component].code;
+                    }
+                    else
+                    {
+                        //for (var property in sceneEntity.components[component]) 
+                        //{
+                        //    composerAsString += "\n\t\t\t\t\t{PROPERTY}:"+property + "="+sceneEntity.components[component].property;
+                        //}
+                        for (let [key, value] of Object.entries(sceneEntity.components[component])) {
+                            composerAsString += "\n\t\t\t{PROPERTY}:"+key + "="+value;
+                        }
+                        composerAsString += "\n\t\t{END}";
+                    }
+                }
+                composerAsString += "\n\t{END}";
+            }
+            composerAsString += "\n{END}";
+
+        }
+    }
+    console.log(composerAsString)
+}
+
+GDev.Composer.prototype.log = function log()
+{
+    // Print / log information about the composer
+    console.log(JSON.stringify(this, null, 4));
 };

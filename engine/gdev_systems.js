@@ -161,7 +161,7 @@ GDev.ECS.Systems.TranspileScripts = function TranspileScripts(entities)
         {
             var code = "({ " + self.components.script.code + "})";
             // Reassign the script component variable with the actual script functions
-            self.components.script = eval(code);
+            self.script = eval(code);
         }
     }
 }
@@ -178,13 +178,13 @@ GDev.ECS.Systems.RunScript = function RunScripts(type, thisEntity)
         switch(type)
         {
             case "onCreate":
-                thisEntity.components.script.onCreate();
+                thisEntity.script.onCreate();
                 break;
-            case "onRender":
-                thisEntity.components.script.onRender();
+            case "onTick":
+                thisEntity.script.onTick();
                 break;
             case "onDelete":
-                thisEntity.components.script.onDelete();
+                thisEntity.script.onDelete();
                 break;
         }
     }

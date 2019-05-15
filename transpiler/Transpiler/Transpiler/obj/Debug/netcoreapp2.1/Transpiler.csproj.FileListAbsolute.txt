@@ -1,0 +1,11 @@
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\bin\Debug\netcoreapp2.1\Transpiler.deps.json
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\bin\Debug\netcoreapp2.1\Transpiler.runtimeconfig.json
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\bin\Debug\netcoreapp2.1\Transpiler.runtimeconfig.dev.json
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\bin\Debug\netcoreapp2.1\Transpiler.dll
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.csprojAssemblyReference.cache
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.csproj.CoreCompileInputs.cache
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.AssemblyInfoInputs.cache
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.AssemblyInfo.cs
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\bin\Debug\netcoreapp2.1\Transpiler.pdb
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.dll
+C:\Users\micha\OneDrive\Ausbildung Fachinformatiker\Projekte\GDev-master\transpiler\Transpiler\Transpiler\obj\Debug\netcoreapp2.1\Transpiler.pdb
