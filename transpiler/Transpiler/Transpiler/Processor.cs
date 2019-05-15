@@ -61,7 +61,7 @@ namespace Transpiler
 					// then it can be more than one line
 					if (hierachy[lastScene].entities[lastEntity].components[lastComponent].Name == "script")
 					{
-						if (line.Contains("{PROPERTY}:code="))
+						if (line.Contains(KEY_PROPERTY+"code="))
 						{
 							// So read the entire script, not just one line
 							while(!IsKey(KEY_END, line))

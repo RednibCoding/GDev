@@ -90,6 +90,7 @@ GDev.ECS.Components.Sprite.prototype.name = 'sprite';
 // ----------------------------------------------------------------------------
 GDev.ECS.Components.Script = function ComponentScript(code = "")
 {
+    
     this.code = code;
     return this;
 };
@@ -104,6 +105,10 @@ GDev.ECS.Components.Script.prototype.name = 'script';
 // ----------------------------------------------------------------------------
 GDev.ECS.Components.Scene = function ComponentScene(isStartScene = false)
 {
+    if(isStartScene !== true && isStartScene !== false)
+    {
+        console.error("isStartScene is not of type Boolean!")
+    }
     this.isStartScene = isStartScene;
     // List of all entities in this scene
     this.entities = {};

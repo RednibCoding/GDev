@@ -138,7 +138,7 @@ GDev.Composer.prototype.serialize = function serialize()
         thisScene = this.scenes[id];
         if(thisScene.components.scene)
         {
-            composerAsString += "\n{SCENE}:"+thisScene.name;;
+            composerAsString += "\n{SCENE}:"+thisScene.name;
 
             var sceneEntity;
             for(var id in thisScene.components.scene.entities)
