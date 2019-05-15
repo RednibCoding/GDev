@@ -7,17 +7,20 @@
 
 
 
-// Position component
+// Transform component
 // ----------------------------------------------------------------------------
-GDev.ECS.Components.Position = function ComponentPosition(x, y)
+GDev.ECS.Components.Transform = function ComponentTransform(x, y)
 {
     x = x || 0;
     y = y || 0;
     this.x = x;
     this.y = y;
+    this.rotation = 0;
+    this.scaleX = 1;
+    this.scaleY = 1;
     return this;
 };
-GDev.ECS.Components.Position.prototype.name = 'position';
+GDev.ECS.Components.Transform.prototype.name = 'transform';
 
 
 // Health component
@@ -62,13 +65,6 @@ GDev.ECS.Components.Sprite = function ComponentSprite(imagePath)
 
     // Set the image origin point to the middle
     this.isMidHandle = true;
-
-    // Rotation of the sprite
-    this.rotation = 0;
-
-    // Scale of the image
-    this.scaleX = 1;
-    this.scaleY = 1;
 
     return this;
 };

@@ -11,10 +11,10 @@
 				
 				onRender()
 				{
-					self.components.position.x +=1;
-					if(self.components.position.x > GraphicsWidth())
+					self.components.transform.x +=1;
+					if(self.components.transform.x > GraphicsWidth())
 					{
-						console.log("Game Over")
+						composer.goToScene("GameOver");
 					}
 				},
 				
@@ -36,6 +36,7 @@
 				{
 					console.log(val);
 				},
+				
 		</code>
 
 			

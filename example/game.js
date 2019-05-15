@@ -14,7 +14,7 @@ composer.addScene(scene1);
 
 // Creating an entity
 var entity1 = new GDev.ECS.Entity();
-entity1.addComponent(new GDev.ECS.Components.Position(200,200));
+entity1.addComponent(new GDev.ECS.Components.Transform(200,200));
 entity1.addComponent(new GDev.ECS.Components.Health(20));
 entity1.addComponent(new GDev.ECS.Components.Sprite("media/ship.png"));
 entity1.addComponent(new GDev.ECS.Components.MouseListener());

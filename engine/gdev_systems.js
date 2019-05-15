@@ -59,23 +59,23 @@ GDev.ECS.Systems.LoadSprites = function SystemLoadSprites(entities)
 
 // Render one entity
 //  Required components:
-//  - Position
+//  - Transform
 //  - Sprite
 // ----------------------------------------------------------------------------
 GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
 {
     // Render the sprite image
-    if(thisEntity.components.sprite && thisEntity.components.position)
+    if(thisEntity.components.sprite && thisEntity.components.transform)
     {
         // when it is not flagged hidden
         if(!thisEntity.components.sprite.isHidden)
         {
             var image = thisEntity.components.sprite.image;
-            var x = thisEntity.components.position.x;
-            var y = thisEntity.components.position.y;
-            var scaleX = thisEntity.components.sprite.scaleX;
-            var scaleY = thisEntity.components.sprite.scaleY;
-            var rotation = thisEntity.components.sprite.rotation;
+            var x = thisEntity.components.transform.x;
+            var y = thisEntity.components.transform.y;
+            var scaleX = thisEntity.components.transform.scaleX;
+            var scaleY = thisEntity.components.transform.scaleY;
+            var rotation = thisEntity.components.transform.rotation;
 
             RotateImage(image, rotation);
             ScaleImage(image, scaleX, scaleY);
@@ -88,8 +88,8 @@ GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
                 // when it is not flagged hidden
                 if(!thisEntity.components.text.isHidden)
                 {
-                    var x = thisEntity.components.position.x + thisEntity.components.text.offsetX;
-                    var y = thisEntity.components.position.y + thisEntity.components.text.offsetY;
+                    var x = thisEntity.components.transform.x + thisEntity.components.text.offsetX;
+                    var y = thisEntity.components.transform.y + thisEntity.components.text.offsetY;
                     var text = thisEntity.components.text.value;
                     DrawText(text, x, y);
                 }
@@ -97,13 +97,13 @@ GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
         }
     }
     // If this entity only has text and no sprite then render just the text
-    else if(thisEntity.components.text && thisEntity.components.position)
+    else if(thisEntity.components.text && thisEntity.components.transform)
     {
         // when it is not flagged hidden
         if(!thisEntity.components.text.isHidden)
         {
-            var x = thisEntity.components.position.x + thisEntity.components.text.offsetX;
-            var y = thisEntity.components.position.y + thisEntity.components.text.offsetY;
+            var x = thisEntity.components.transform.x + thisEntity.components.text.offsetX;
+            var y = thisEntity.components.transform.y + thisEntity.components.text.offsetY;
             var text = thisEntity.components.text.value;
             DrawText(text, x, y);
         }
@@ -112,7 +112,7 @@ GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
 
 // Render a list of given entites
 //  Required components:
-//  - Position
+//  - Transform
 //  - Sprite
 // ----------------------------------------------------------------------------
 GDev.ECS.Systems.RenderEntites = function SystemRenderEntites(entities)
@@ -120,7 +120,7 @@ GDev.ECS.Systems.RenderEntites = function SystemRenderEntites(entities)
     // Takes an array of entities
     // and draws them onto the screen
     // NOTE: Sprites must be loaded before, via GDev.ECS.Systems.LoadSprite
-    // (Optimization: only pass entities with ComponentSprite/ComponentText and ComponentPosition attached)
+    // (Optimization: only pass entities with ComponentSprite/ComponentText and ComponentTransform attached)
 
     var thisEntity;
 
@@ -254,14 +254,14 @@ GDev.ECS.Systems.FreeSceneEntity = function FreeSceneEntity(sceneEntity)
 //  Required components:
 //  - MouseListener
 //  - Sprite
-//  - Position
+//  - Transform
 GDev.ECS.Systems.UpdateMouseListener = function UpdateMouseListener(thisEntity)
 {
-    if(thisEntity.components.mouseListener && thisEntity.components.sprite && thisEntity.components.position)
+    if(thisEntity.components.mouseListener && thisEntity.components.sprite && thisEntity.components.transform)
     {
 
-        var spriteX = thisEntity.components.position.x;
-        var spriteY = thisEntity.components.position.y;
+        var spriteX = thisEntity.components.transform.x;
+        var spriteY = thisEntity.components.transform.y;
         var spriteWidth = ImageWidth(thisEntity.components.sprite.image);
         var spriteHeight = ImageHeight(thisEntity.components.sprite.image);
 
@@ -293,7 +293,7 @@ GDev.ECS.Systems.UpdateMouseListener = function UpdateMouseListener(thisEntity)
 //  Required components:
 //  - MouseListener
 //  - Sprite
-//  - Position
+//  - Transform
 GDev.ECS.Systems.UpdateMouseListeners = function UpdateMouseListener(entities)
 {
     var thisEntity;
