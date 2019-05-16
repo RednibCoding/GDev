@@ -11,10 +11,12 @@
 
 				onTick()
 				{
+					// To access the entity this script is attached to
+					// simply use the keyword "self"
 					self.components.transform.x +=1;
 					if(self.components.transform.x > GDev.CanvasWidth)
 					{
-						//GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
+						GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
 					}
 				},
 				
@@ -27,15 +29,13 @@
 				// however, these are createt in script context
 				// so they have to be reffered with 'this' when used
 				
-				test: 'Value of x is: ',
+				// A variable
+				myVar: 'Value of x is: ',
 				
-				// To access the entity this script is attached to
-				// simply use the keyword "self"
-				//x: self.components.scene.entities[2].components.position.x,
-				
-				myFunc(val)
+				// A Function
+				myFunc()
 				{
-					console.log(val);
+					console.log(this.myVar);
 				}
 				
 		</code>
