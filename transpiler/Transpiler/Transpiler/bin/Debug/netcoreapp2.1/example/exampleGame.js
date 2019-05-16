@@ -81,3 +81,28 @@ GDev.composer.addScene(scene2);
 var entity2 = new GDev.ECS.Entity('entity2');
 entity2.addComponent(new GDev.ECS.Components.Transform(200,200,0,1,1));
 entity2.addComponent(new GDev.ECS.Components.Text('Scene2',false,0,0));
+
+// Set up the scripts and start scene
+GDev.composer.finalize();
+GDev.composer.setStartSceneAsActiveScene();
+
+// Run the 'onCreate()' functions defined by the scripts
+GDev.composer.onCreate();
+
+// Initialize the graphics context
+Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);
+ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
+TFormFilter(false);
+
+// Load all sprites
+GDev.composer.loadSprites();
+
+
+// Main function
+window[GDev.Properties.AppTitle] = function()
+{
+    Cls();
+    GDev.Update();
+
+    GDev.composer.onTick();
+}
