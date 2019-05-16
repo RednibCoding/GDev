@@ -25,5 +25,5 @@ GDev is an easy to use, component based game editor based on the simple yet powe
 A script file could look like follows:
 
 <p align="center"> 
-<img src="doc/sampleScript.png" width="50%">
+<img src="doc/sampleScript.png" width="80%">
 </p>
