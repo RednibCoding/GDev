@@ -1,16 +1,17 @@
 # GDev
-GDev is an easy to use, component based game editor based on the simple yet powerfull Javascript game framework [jBB](https://github.com/Farbfinsternis/jBB
-).
 
+## What is GDev?
+GDev is an easy to use, component based game engine based on the simple yet powerfull Javascript game framework [jBB](https://github.com/Farbfinsternis/jBB).
+GDev comes bundled with GDev-Edit - an editor allowing you to quickly set up your scenes and objects. With the build-in code-editor, you can create scripts in a Javascript/JSON-like syntax and attach them to scenes and objects.
 
 <p align="center"> 
 <img src="doc/editor.png" width="80%">
 </p>
 
 ## GDev consists of three sub projects:
-- The GDev Engine (in a usable state, yet incomplete)
-- The Editor (not usable yet)
-- The Transpiler (is working)
+- GDev-Engine (in a usable state, yet incomplete)
+- GDev-Edit the editor (not usable yet)
+- The Transpiler (working)
 
 
 ## The toolchain
@@ -20,9 +21,9 @@ GDev is an easy to use, component based game editor based on the simple yet powe
 </p>
 
 - In the editor you can set up scenes and add entites.
-- In the code editor you write scripts for your scenes and entites in json/javascript syntax
+- In the code editor you can write scripts for your scenes and entites in a json/javascript syntax
 
-A script file could look like follows:
+A script file could look like as follows:
 
 <p align="center"> 
 <img src="doc/sampleScript.png" width="80%">
@@ -30,9 +31,9 @@ A script file could look like follows:
 
 ## The Transpiler
 
-The transpiler takes a gdev-project-/gdev-definition- file as input and transpiles it into a game.js, ready to be included into an html file.
+The transpiler takes a gdp-file (GDev-Edit project file) as input and transpiles it into a game.js, ready to be included into an html file.
 
-The  gdev-project-/gdev-definition- file can look something like this:
+The gdp-file can look something like this:
 
 <p align="center"> 
 <img src="doc/gdp_file.png" width="80%">
