@@ -38,7 +38,7 @@ namespace Transpiler
 			return code;
 		}
 
-		// Add a component
+		// Add Component
 		public static string AddComponentCommand(string name)
 		{
 			// TODO
