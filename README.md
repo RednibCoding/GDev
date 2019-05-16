@@ -10,7 +10,7 @@ GDev is an easy to use, component based game editor based on the simple yet powe
 ## GDev consists of three sub projects:
 - The GDev Engine (in a usable state, yet incomplete)
 - The Editor (not usable yet)
-- The Transpiler (not usable yet)
+- The Transpiler (is working)
 
 
 ## The toolchain
