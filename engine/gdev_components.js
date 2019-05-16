@@ -67,7 +67,7 @@ GDev.ECS.Components.Sprite.prototype.name = 'sprite';
 // Script component
 // The script must contain the following three functions:
 //  - onCreate()
-//  - onRender()
+//  - onTick()
 //  - onDelete()
 // So the script file must lool like as follows:
 /*
@@ -76,7 +76,7 @@ GDev.ECS.Components.Sprite.prototype.name = 'sprite';
         // your code here
         console.log('This comes from onCreate');
     },
-    onRender()
+    onTick()
     {
         // your code here
     },
