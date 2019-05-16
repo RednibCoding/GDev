@@ -30,9 +30,9 @@ A script file could look like follows:
 
 ## The Transpiler
 
-The transpiler takes a gdev-project-/gdev-definition- file as input and transpiles it into a game.js ready to be included into an html file.
+The transpiler takes a gdev-project-/gdev-definition- file as input and transpiles it into a game.js, ready to be included into an html file.
 
-The  gdev-project-/gdev-definition- file can look soething like this:
+The  gdev-project-/gdev-definition- file can look something like this:
 
 <p align="center"> 
 <img src="doc/gdp_file.png" width="80%">
