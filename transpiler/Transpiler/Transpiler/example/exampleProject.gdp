@@ -22,42 +22,44 @@ gdev_composer.js:176
 		{COMPONENT}:mouseListener
 		{END}
 		{COMPONENT}:script
-			{PROPERTY}:code=
-				// The following three functions have to be defined in every script
-				// even if they are empty
+			{PROPERTY}:code=({
+				// The following three "on"- functions have to be defined in every script,
+				// even if they are empty.
 
 				onCreate()
 				{
 					// Here goes code that should be executed
-					// at the creation of the entity
-					console.log("I have been created");
+					// at the creation of the entity.
+					console.log(this.myName+" has been created");
 				},
 
 				onTick()
 				{
 
-					// Here goes code that should be executed every game tick
+					// Here goes code that should be executed every game tick.
 
-					// To access the entity this script is attached to
+					// To access the entity this script is attached to,
 					// simply use the keyword "self"
 					self.components.transform.x +=1;
 					if(self.components.transform.x > GDev.CanvasWidth)
 					{
 						GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
+                    	GDev.composer.goToScene("scene2");
 					}
 				},
 				
 				onDelete()
 				{
 					// Here goes code that should be executed
-					// at the deletion of an entity
-					this.myFunc(this.myName);
+					// at the deletion of the entity.
+					this.myFunc(this.myName + " has been deleted");
 				},
 				
 				
-				// the user can define variables and functions aswell
-				// however, these are createt in script context
-				// so they have to be reffered with 'this' when used
+				// The user can define variables and functions aswell,
+				// however, these are created in script context,
+				// so they have to be referred with the keyword 'this'.
+  				// See: onDelete()
 				
 				// A variable
 				myName: self.name,
@@ -67,8 +69,7 @@ gdev_composer.js:176
 				{
 					console.log(val);
 				}
-				
-		
+})
 	{END}
 {END}
 {SCENE}:scene2
