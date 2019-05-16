@@ -5,17 +5,35 @@ using System.Text.RegularExpressions;
 
 namespace Transpiler
 {
-	class Processor
+	class ProjectDataProcessor
 	{
 		static List<Scene> hierachy = new List<Scene>();
+		static List<GDevProperty> gdevProperties = new List<GDevProperty>();
 
 		const string KEY_SCENE = "{SCENE}:";
 		const string KEY_ENTITY = "{ENTITY}:";
 		const string KEY_COMPONENT = "{COMPONENT}:";
 		const string KEY_PROPERTY = "{PROPERTY}:";
 		const string KEY_END = "{END}";
+		const string KEY_GDEV_PROPERTY = "{GDEV_PROPERTY}:";
 
-		public static List<Scene> ProcessGdevpData(string[] projectData)
+		public static List<GDevProperty> ProcessGDevPropertyData(string[] projectData)
+		{
+			string line;
+			for (int i = 0; i < projectData.Length; i++)
+			{
+				line = projectData[i];
+
+				if (IsKey(KEY_GDEV_PROPERTY, line))
+				{
+					gdevProperties.Add(new GDevProperty(GetKeyValuePairFrom(KEY_GDEV_PROPERTY, line)));
+				}
+			}
+
+			return gdevProperties;
+		}
+
+		public static List<Scene> ProcessComposerData(string[] projectData)
 		{
 			string line;
 			for(int i = 0; i < projectData.Length; i++)
@@ -42,7 +60,7 @@ namespace Transpiler
 				if (IsKey(KEY_COMPONENT, line))
 				{
 					// Add the component to the entity
-					var component = new Components.Component(GetValueFrom(KEY_COMPONENT, line));
+					var component = new Component(GetValueFrom(KEY_COMPONENT, line));
 					var lastScene = hierachy.Count - 1;
 					var lastEntity = hierachy[lastScene].entities.Count - 1;
 					hierachy[lastScene].entities[lastEntity].components.Add(component);
@@ -63,12 +81,15 @@ namespace Transpiler
 					{
 						if (line.Contains(KEY_PROPERTY+"code="))
 						{
+							property += "/*"+ GetValueFrom(KEY_PROPERTY, line)+"\n";
+							line = projectData[++i];
 							// So read the entire script, not just one line
-							while(!IsKey(KEY_END, line))
+							while (!IsKey(KEY_END, line))
 							{
-								property += line;
+								property += line + "\n";
 								line = projectData[++i];
 							}
+							property += "*/";
 						}
 					}
 					else
@@ -79,11 +100,6 @@ namespace Transpiler
 				}
 			}
 			return hierachy;
-		}
-
-		public void WriteGameFile(string fileName)
-		{
-
 		}
 
 		static bool IsKey(string key, string line)
@@ -99,7 +115,17 @@ namespace Transpiler
 		{
 			// Remove all whitespaces (space, tabs, etc)
 			line = Regex.Replace(line, @"\s+", "");
-			return line.Remove(0, key.Length);
+			line = line.Remove(0, key.Length);
+			line = line.Substring(line.IndexOf('=') + 1);
+			return line;
+		}
+
+		static string GetKeyValuePairFrom(string key, string line)
+		{
+			// Remove all whitespaces (space, tabs, etc)
+			line = Regex.Replace(line, @"\s+", "");
+			line = line.Remove(0, key.Length);
+			return line;
 		}
 	}
 }

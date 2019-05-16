@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Transpiler.Components
+namespace Transpiler
 {
 	class Component
 	{

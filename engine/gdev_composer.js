@@ -156,11 +156,12 @@ GDev.Composer.prototype.serialize = function serialize()
                     }
                     else
                     {
-                        //for (var property in sceneEntity.components[component]) 
-                        //{
-                        //    composerAsString += "\n\t\t\t\t\t{PROPERTY}:"+property + "="+sceneEntity.components[component].property;
-                        //}
-                        for (let [key, value] of Object.entries(sceneEntity.components[component])) {
+                        for (let [key, value] of Object.entries(sceneEntity.components[component]))
+                        {
+                            if(typeof value == "string")
+                            {
+                                value = "'" + value + "'";
+                            }
                             composerAsString += "\n\t\t\t{PROPERTY}:"+key + "="+value;
                         }
                         composerAsString += "\n\t\t{END}";

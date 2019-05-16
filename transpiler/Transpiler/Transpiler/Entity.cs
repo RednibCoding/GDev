@@ -7,7 +7,7 @@ namespace Transpiler
 	class Entity
 	{
 		public string Name { set; get; }
-		public List<Components.Component> components = new List<Components.Component>();
+		public List<Component> components = new List<Component>();
 
 		public Entity(string name)
 		{

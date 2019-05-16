@@ -1,7 +1,28 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<code id=file>
+{GDEV_PROPERTY}:AppTitle='GDevApp'
+{GDEV_PROPERTY}:CanvasWidth=800
+{GDEV_PROPERTY}:CanvasHeight=600
+{GDEV_PROPERTY}:ClsColor.r=0
+{GDEV_PROPERTY}:ClsColor.g=0
+{GDEV_PROPERTY}:ClsColor.b=0
+gdev_composer.js:176 
+{SCENE}:scene1
+	{ENTITY}:entity1
+		{COMPONENT}:transform
+			{PROPERTY}:x=200
+			{PROPERTY}:y=200
+			{PROPERTY}:rotation=0
+			{PROPERTY}:scaleX=1
+			{PROPERTY}:scaleY=1
+		{END}
+		{COMPONENT}:sprite
+			{PROPERTY}:_imagePath='media/ship.png'
+			{PROPERTY}:isHidden=false
+			{PROPERTY}:isMidHandle=true
+		{END}
+		{COMPONENT}:mouseListener
+		{END}
+		{COMPONENT}:script
+			{PROPERTY}:code=
 				// The following three functions have to be defined in every script
 				// even if they are empty
 
@@ -47,19 +68,23 @@
 					console.log(val);
 				}
 				
-		</code>
-
-			
 		
-
-	</head>
-	<body>
-		<script type="text/javascript" src="../deps/js/jbb.js"></script>
-		<script type="text/javascript" src="../engine/gdev_main.js"></script>
-		<script type="text/javascript" src="../engine/gdev_ecs.js"></script>
-		<script type="text/javascript" src="../engine/gdev_components.js"></script>
-		<script type="text/javascript" src="../engine/gdev_systems.js"></script>
-		<script type="text/javascript" src="../engine/gdev_composer.js"></script>
-		<script type="text/javascript" src="game.js"></script>
-	</body>
-</html>
+	{END}
+{END}
+{SCENE}:scene2
+	{ENTITY}:entity2
+		{COMPONENT}:transform
+			{PROPERTY}:x=200
+			{PROPERTY}:y=200
+			{PROPERTY}:rotation=0
+			{PROPERTY}:scaleX=1
+			{PROPERTY}:scaleY=1
+		{END}
+		{COMPONENT}:text
+			{PROPERTY}:value='Scene2'
+			{PROPERTY}:isHidden=false
+			{PROPERTY}:offsetX=0
+			{PROPERTY}:offsetY=0
+		{END}
+	{END}
+{END}

@@ -36,4 +36,26 @@ GDev.Update = function GDevUpdate()
 
     GDev.CanvasWidth = GraphicsWidth();
     GDev.CanvasHeight = GraphicsHeight();
-}
+};
+
+GDev.Serialize = function GDevSerialize(composer)
+{
+    if(typeof composer === 'undefined')
+    {
+        console.error("Unable to serialize: composer is undefined!")
+    }
+
+    var gdevAsString = "";
+
+    gdevAsString += "\n{GDEV_PROPERTY}:AppTitle='"+GDev.Properties.AppTitle+"'";
+    gdevAsString += "\n{GDEV_PROPERTY}:CanvasWidth="+GDev.Properties.CanvasWidth;
+    gdevAsString += "\n{GDEV_PROPERTY}:CanvasHeight="+GDev.Properties.CanvasHeight;
+    gdevAsString += "\n{GDEV_PROPERTY}:ClsColor.r="+GDev.Properties.ClsColor.r;
+    gdevAsString += "\n{GDEV_PROPERTY}:ClsColor.g="+GDev.Properties.ClsColor.g;
+    gdevAsString += "\n{GDEV_PROPERTY}:ClsColor.b="+GDev.Properties.ClsColor.b;
+    
+    console.log(gdevAsString);
+
+    composer.serialize();
+
+};

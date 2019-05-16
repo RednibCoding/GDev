@@ -43,7 +43,7 @@ GDev.composer.finalize();
 
 GDev.composer.setStartSceneAsActiveScene();
 
-GDev.composer.serialize();
+GDev.Serialize(GDev.composer);
 
 GDev.composer.onCreate();
 

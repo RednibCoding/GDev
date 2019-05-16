@@ -11,8 +11,10 @@ namespace Transpiler
 	{
 		static void Main(string[] args)
 		{
-			var gdevpData = ProjectFileReader.ReadFile("example/exampleProject.gdevp");
-			var hierachy = Processor.ProcessGdevpData(gdevpData);
+			var gdpData = ProjectFileReader.ReadFile("example/exampleProject.gdp");
+			var gdevProperties = ProjectDataProcessor.ProcessGDevPropertyData(gdpData);
+			var sceneHierachy = ProjectDataProcessor.ProcessComposerData(gdpData);
+			GameFileWriter.WriteFile("example/exampleGame.js", gdevProperties, sceneHierachy);
 		}
 	}
 }
