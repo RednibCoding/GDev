@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Transpiler": {
+      "commandName": "Project",
+      "commandLineArgs": "example/exampleProject.gdp"
+    }
+  }
+}

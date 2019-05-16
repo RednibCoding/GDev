@@ -51,10 +51,15 @@ namespace Transpiler
 									}
 								}
 							}
+							output += GDevCodeGenerator.AddEntityToSceneCommand(scene.Name, entity.Name);
 						}
 					}
 				}
 			}
+			output += GDevCodeGenerator.FinalizeComposerCommand();
+			output += GDevCodeGenerator.InitGraphicsContextCommand();
+			output += GDevCodeGenerator.MainFunctionCommand();
+
 			File.WriteAllText(fileName, output);
 		}
 	}

@@ -4,7 +4,7 @@
 {GDEV_PROPERTY}:ClsColor.r=0
 {GDEV_PROPERTY}:ClsColor.g=0
 {GDEV_PROPERTY}:ClsColor.b=0
-gdev_composer.js:176 
+gdev_composer.js:178 
 {SCENE}:scene1
 	{ENTITY}:entity1
 		{COMPONENT}:transform
@@ -22,7 +22,7 @@ gdev_composer.js:176
 		{COMPONENT}:mouseListener
 		{END}
 		{COMPONENT}:script
-			{PROPERTY}:code=
+			{PROPERTY}:code=({
 				// The following three functions have to be defined in every script
 				// even if they are empty
 
@@ -69,6 +69,7 @@ gdev_composer.js:176
 				}
 				
 		
+})
 	{END}
 {END}
 {SCENE}:scene2

@@ -81,7 +81,7 @@ namespace Transpiler
 					{
 						if (line.Contains(KEY_PROPERTY+"code="))
 						{
-							property += "/*"+ GetValueFrom(KEY_PROPERTY, line)+"\n";
+							property += "`" + GetValueFrom(KEY_PROPERTY, line)+"\n";
 							line = projectData[++i];
 							// So read the entire script, not just one line
 							while (!IsKey(KEY_END, line))
@@ -89,7 +89,7 @@ namespace Transpiler
 								property += line + "\n";
 								line = projectData[++i];
 							}
-							property += "*/";
+							property += "`";
 						}
 					}
 					else

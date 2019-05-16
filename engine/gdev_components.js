@@ -45,7 +45,7 @@ GDev.ECS.Components.Text.prototype.name = 'text';
 // Note: All variables that can be changed by the user must be passable
 // as function argument
 // ----------------------------------------------------------------------------
-GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, image = null, isHidden = false, isMidHandle = true)
+GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = false, isMidHandle = true)
 {
     imagePath = imagePath || "";
     this._imagePath = imagePath;
@@ -90,7 +90,6 @@ GDev.ECS.Components.Sprite.prototype.name = 'sprite';
 // ----------------------------------------------------------------------------
 GDev.ECS.Components.Script = function ComponentScript(code = "")
 {
-    
     this.code = code;
     return this;
 };

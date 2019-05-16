@@ -11,10 +11,13 @@ namespace Transpiler
 	{
 		static void Main(string[] args)
 		{
-			var gdpData = ProjectFileReader.ReadFile("example/exampleProject.gdp");
+			string fileIn = args[0];
+			string fileOut = fileIn.Replace(".gdp", "_game.js");
+
+			var gdpData = ProjectFileReader.ReadFile(fileIn);
 			var gdevProperties = ProjectDataProcessor.ProcessGDevPropertyData(gdpData);
 			var sceneHierachy = ProjectDataProcessor.ProcessComposerData(gdpData);
-			GameFileWriter.WriteFile("example/exampleGame.js", gdevProperties, sceneHierachy);
+			GameFileWriter.WriteFile(fileOut, gdevProperties, sceneHierachy);
 		}
 	}
 }

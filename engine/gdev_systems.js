@@ -159,8 +159,8 @@ GDev.ECS.Systems.TranspileScripts = function TranspileScripts(entities)
         // to the entity to make them available in javascript
         if(self.components.script)
         {
-            var code = "({ " + self.components.script.code + "})";
-            // Reassign the script component variable with the actual script functions
+            var code = self.components.script.code;
+            // Assign the script variable with the actual script functions
             self.script = eval(code);
         }
     }

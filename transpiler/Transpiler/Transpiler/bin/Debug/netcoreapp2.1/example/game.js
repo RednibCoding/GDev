@@ -27,7 +27,7 @@ var entity1 = new GDev.ECS.Entity('entity1');
 entity1.addComponent(new GDev.ECS.Components.Transform(200,200,0,1,1));
 entity1.addComponent(new GDev.ECS.Components.Sprite('media/ship.png',false,true));
 entity1.addComponent(new GDev.ECS.Components.MouseListener());
-entity1.addComponent(new GDev.ECS.Components.Script(`({
+entity1.addComponent(new GDev.ECS.Components.Script(`({({
 				// The following three functions have to be defined in every script
 				// even if they are empty
 
@@ -75,7 +75,7 @@ entity1.addComponent(new GDev.ECS.Components.Script(`({
 				
 		
 })
-`));
+})`));
 // Add entity to scene
 GDev.composer.addEntityToScene(scene1,entity1);
 
@@ -94,8 +94,6 @@ GDev.composer.addEntityToScene(scene2,entity2);
 // Finalize the composer and set start scene as active scene
 GDev.composer.finalize();
 GDev.composer.setStartSceneAsActiveScene();
-
-GDev.Serialize(GDev.composer);
 
 // Initialize the graphics context
 Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);

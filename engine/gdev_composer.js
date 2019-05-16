@@ -102,7 +102,9 @@ GDev.Composer.prototype.goToScene = function goToScene(sceneName)
     if(scene.components.scene)
     {
         this.thisScene = scene;
-        GDev.ECS.Systems.RunScript("onCreate", scene)
+        GDev.ECS.Systems.RunScript("onCreate", this.thisScene);
+        GDev.ECS.Systems.RunScripts("onCreate", this.thisScene.components.scene.entities);
+
     }
 };
 
