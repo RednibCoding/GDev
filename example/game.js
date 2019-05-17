@@ -104,7 +104,7 @@ Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Propert
 ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
 TFormFilter(false);
 
-GDev.Serialize(GDev.composer);
+//GDev.Serialize(GDev.composer);
 
 // Load all sprites
 GDev.composer.loadSprites();

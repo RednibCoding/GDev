@@ -4,8 +4,57 @@
 //  Some examples are already given below.
 //  For more info, see: gdev_ecs.js
 //
-// Note: All variables that can be changed by the user must be passable
-// as function argument
+//
+// Node: All variables that get not only declared but also defined
+// in the function, will automatically be exported to the .gdp-file when calling the GDev.Serializer.
+// That means, that the transpiler will consider them when creating the game.js out of the .gdp-file.
+//
+// Example:
+//  When you have created a new component:
+//      GDev.ECS.Components.MyComponent = function ComponentMyComponent(a = 1, b = 2, c = 3)
+//      {
+//          // When you want the serializer to ignore a variable
+//          // then just define them without declaring them
+//          this.foo;
+//
+//          // When you want the serializer to export a variable as component {PROPERTY}
+//          // Then give them any initial value:
+//          this.bar=0;
+//
+//          Note that the transpiler will pass arguments in the same order
+//          they were serialized / declared here.
+//          So when you want, that arguments get passed in the correct order
+//          You have to declare them in the right order:
+//          this.a = a;
+//          this.b = b;
+//          this.c = c;
+//          
+//      }
+//      GDev.ECS.Components.MyComponent.prototype.name = 'mycomponent';
+//
+//  The serializer will serialze them in the following order:
+//  {PROPERTY}:a=1
+//  {PROPERTY}:b=2
+//  {PROPERTY}:c=3
+//
+//  The transpiler will create the corresponding code out of it:
+//  addComponent(new GDev.ECS.Components.MyComponent(1,2,3));
+//  
+//  If you would declare the variables in a different order, they will be passed in a different order.
+//  So for example declaring them in this order:
+//  this.c = c;
+//  this.a = a;
+//  this.b = b;
+//
+//  Will create the following .gdp output from the serializer
+//  {PROPERTY}:c=3
+//  {PROPERTY}:a=1
+//  {PROPERTY}:b=2
+//
+//  And the transpiler would generate the following output:
+//  addComponent(new GDev.ECS.Components.MyComponent(3,1,2));
+//
+//  So keep in mind: always declare the variables in the order they should passed in as arguments
 // ##################################################################
 
 
@@ -63,8 +112,8 @@ GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = fals
     // These parameters can be changed according to the spritesheet
     // If cellCount is greater than 1, this sprite is considered as spritesheet
     // For more info see: System LoadSprite
-    this.cellRows = cellRows;
     this.cellColumns = cellColumns;
+    this.cellRows = cellRows;
     this.cellCount;
     this.cellWidth;
     this.cellHeight;
@@ -74,26 +123,6 @@ GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = fals
     return this;
 };
 GDev.ECS.Components.Sprite.prototype.name = 'sprite';
-
-
-// Animated sprite component
-GDev.ECS.Components.AnimatedSprite = function ComponentAnimatedSprite(imagePath, isHidden = false, isMidHandle = true)
-{
-    imagePath = imagePath || "";
-    this._imagePath = imagePath;
-
-    // Must be loaded via 'LoadImage(this._imagePath)'
-    this.image;
-
-    // Determines if a sprite is hidden or not
-    this.isHidden = isHidden;
-
-    // Set the image origin point to the middle
-    this.isMidHandle = isMidHandle;
-
-    return this;
-}
-GDev.ECS.Components.AnimatedSprite.prototype.name = 'AnimatedSprite';
 
 
 // Script component

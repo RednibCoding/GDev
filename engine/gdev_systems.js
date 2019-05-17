@@ -6,7 +6,7 @@
 // ##################################################################
 
 // LoadSprite
-// Load the sprites of the given entites
+// Load the sprites of the given entity
 //  Required components:
 //  - Sprite
 // ----------------------------------------------------------------------------
@@ -37,14 +37,15 @@ GDev.ECS.Systems.LoadSprite = function SystemLoadSprite(thisEntity)
             if(thisEntity.components.sprite.isSpritesheet)
             {
                 thisEntity.components.sprite.image = LoadImage2(path, thisEntity.components.sprite.cellColumns, thisEntity.components.sprite.cellRows, 0);
-                //thisEntity.components.sprite.image = LoadImage(path, 46, 40, 1, 4);
             }
             else
             {
                 thisEntity.components.sprite.image = LoadImage(path);
             }
+
             // Set the start frame to the first frame
-            thisEntity.components.sprite.currentFrame = 3;
+            thisEntity.components.sprite.currentFrame = 1;
+
             var isMidHandle = thisEntity.components.sprite.isMidHandle;
             if(typeof thisEntity.components.sprite.image == 'undefined')
             {
@@ -60,7 +61,7 @@ GDev.ECS.Systems.LoadSprite = function SystemLoadSprite(thisEntity)
 }
 
 // LoadSprites
-// Load the sprites of all given entites
+// Load the sprites of all given entities
 //  Required components:
 //  - Sprite
 // ----------------------------------------------------------------------------
@@ -247,7 +248,7 @@ GDev.ECS.Systems.FreeSceneEntity = function FreeSceneEntity(sceneEntity)
         for(var id in sceneEntity.components.scene.entities)
         {
             entityToDelete = entities[id];
-            GDev.ECS.Systems.RemoveEntityFromScene(sceneEntity, entityToDelete)
+            GDev.ECS.Systems.DeleteEntity(sceneEntity, entityToDelete)
         }
     }
 }
