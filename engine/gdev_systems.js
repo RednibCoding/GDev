@@ -110,27 +110,6 @@ GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
     }
 }
 
-// Render a list of given entites
-//  Required components:
-//  - Transform
-//  - Sprite
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.RenderEntites = function SystemRenderEntites(entities)
-{
-    // Takes an array of entities
-    // and draws them onto the screen
-    // NOTE: Sprites must be loaded before, via GDev.ECS.Systems.LoadSprite
-    // (Optimization: only pass entities with ComponentSprite/ComponentText and ComponentTransform attached)
-
-    var thisEntity;
-
-    for(var id in entities)
-    {
-        thisEntity = entities[id];
-        GDev.ECS.Systems.RenderEntity(thisEntity);
-    }
-}
-
 // Transpile Script
 // Must be called once before main loop
 //  Required components:
@@ -219,7 +198,7 @@ GDev.ECS.Systems.AddEntityToScene = function AddEntityToScene(sceneEntity, newEn
 // If an entity has the scene component, then entites can be deleted from it
 //  Required components:
 //  - Scene
-GDev.ECS.Systems.RemoveEntityFromScene = function RemoveEntityFromScene(sceneEntity, entityToDelete)
+GDev.ECS.Systems.DeleteEntity = function DeleteEntity(sceneEntity, entityToDelete)
 {
     if(sceneEntity.components.scene)
     {
@@ -286,21 +265,5 @@ GDev.ECS.Systems.UpdateMouseListener = function UpdateMouseListener(thisEntity)
             //thisEntity.components.mouseListener.isMouseHit = false;
             thisEntity.components.mouseListener.isMouseDown = false;
         }
-    }
-}
-
-// Update the Mouselistener for each given entity
-//  Required components:
-//  - MouseListener
-//  - Sprite
-//  - Transform
-GDev.ECS.Systems.UpdateMouseListeners = function UpdateMouseListener(entities)
-{
-    var thisEntity;
-
-    for(var id in entities)
-    {
-        thisEntity = entities[id];
-        GDev.ECS.Systems.UpdateMouseListener(thisEntity);
     }
 }

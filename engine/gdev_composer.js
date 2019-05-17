@@ -14,6 +14,7 @@ GDev.Composer = function Composer()
     return this;
 }
 
+// Add a scene to the composer
 GDev.Composer.prototype.addScene = function addScene(sceneEntity)
 {
     if(sceneEntity.components.scene)
@@ -22,24 +23,28 @@ GDev.Composer.prototype.addScene = function addScene(sceneEntity)
     }
 };
 
-GDev.Composer.prototype.removeScene = function removeScene(sceneEntity)
+// Delete a scene
+GDev.Composer.prototype.deleteScene = function deleteScene(sceneEntity)
 {
+    // Delete all entites in the scene as well
     GDev.ECS.Systems.FreeSceneEntity(sceneEntity);
     delete this.scenes[sceneEntity.name];
 };
 
+// Add an entity to the given scene
 GDev.Composer.prototype.addEntityToScene = function addEntityToScene(sceneEntity, newEntity)
 {
     GDev.ECS.Systems.AddEntityToScene(sceneEntity, newEntity);
 };
 
-GDev.Composer.prototype.removeEntityFromScene = function removeEntityFromScene(sceneEntity, entityToDelete)
+// Delete an entity
+GDev.Composer.prototype.deleteEntity = function deleteEntity(sceneEntity, entityToDelete)
 {
-    GDev.ECS.Systems.RemoveEntityFromScene(sceneEntity, entityToDelete);
+    GDev.ECS.Systems.DeleteEntity(sceneEntity, entityToDelete);
 };
 
 // Call this once when all scenes have been created and added
-GDev.Composer.prototype.finalize = function composerFinalize()
+GDev.Composer.prototype.attachScripts = function attachScripts()
 {
     // Evaluating the scripts attached to the scenes
     GDev.ECS.Systems.TranspileScripts(this.scenes)
@@ -75,7 +80,7 @@ GDev.Composer.prototype.loadSprites = function loadSprites()
     }
 }
 
-GDev.Composer.prototype.setStartSceneAsActiveScene = function setStartSceneAsActiveScene()
+GDev.Composer.prototype.setStartScene = function setStartScene()
 {
     var thisScene;
     for(var id in this.scenes)
@@ -114,23 +119,35 @@ GDev.Composer.prototype.onCreate = function onCreate()
     GDev.ECS.Systems.RunScripts("onCreate", this.thisScene.components.scene.entities);
 }
 
+// This is the main game loop
 GDev.Composer.prototype.onTick = function onTick()
 {
-    // Update the attached mouse listener
-    GDev.ECS.Systems.UpdateMouseListeners(this.thisScene.components.scene.entities);
 
-    // Run the scripts
-    //  of scene entity
+    // Run the script of the current active scene
     GDev.ECS.Systems.RunScript("onTick", this.thisScene);
-    //  of all entites of scene
-    GDev.ECS.Systems.RunScripts("onTick", this.thisScene.components.scene.entities);
-    // Render
-    //  scene entity
+
+    // Render this scene
     GDev.ECS.Systems.RenderEntity(this.thisScene);
-    //  all entites of scene
-    GDev.ECS.Systems.RenderEntites(this.thisScene.components.scene.entities);
+
+    var thisEntity;
+
+    // Go through each entity in the scene
+    for(var id in this.thisScene.components.scene.entities)
+    {
+        thisEntity = this.thisScene.components.scene.entities[id];
+
+        // Update the attached mouse listener
+        GDev.ECS.Systems.UpdateMouseListener(thisEntity);
+        // Run the script of the entity
+        GDev.ECS.Systems.RunScript("onTick", thisEntity);
+        // Render the entity
+        GDev.ECS.Systems.RenderEntity(thisEntity);
+    }
 };
 
+
+
+// --- Debug ---
 GDev.Composer.prototype.serialize = function serialize()
 {
     var composerAsString = "";

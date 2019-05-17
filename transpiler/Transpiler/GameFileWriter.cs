@@ -56,7 +56,7 @@ namespace Transpiler
 					}
 				}
 			}
-			output += GDevCodeGenerator.FinalizeComposerCommand();
+			output += GDevCodeGenerator.AttachScriptsCommand();
 			output += GDevCodeGenerator.InitGraphicsContextCommand();
 			output += GDevCodeGenerator.MainFunctionCommand();
 

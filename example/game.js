@@ -50,7 +50,7 @@ entity1.addComponent(new GDev.ECS.Components.Script(`({
 					self.components.transform.x +=1;
 					if(self.components.transform.x > GDev.CanvasWidth)
 					{
-						GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
+						GDev.composer.deleteEntity(GDev.composer.thisScene, self);
                     	GDev.composer.goToScene("scene2");
 					}
 				},
@@ -93,9 +93,10 @@ entity2.addComponent(new GDev.ECS.Components.Text('Scene2',false,0,0));
 // Add entity to scene
 GDev.composer.addEntityToScene(scene2,entity2);
 
-// Finalize the composer and set start scene as active scene
-GDev.composer.finalize();
-GDev.composer.setStartSceneAsActiveScene();
+// Attach scripts to entites
+GDev.composer.attachScripts();
+// Set start scene
+GDev.composer.setStartScene();
 
 // Initialize the graphics context
 Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);

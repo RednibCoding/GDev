@@ -1,3 +1,6 @@
 .vs
 editor/Editor/obj/
 editor/Editor/bin/
+transpiler/.vs/
+transpiler/Transpiler/bin/
+transpiler/Transpiler/obj/

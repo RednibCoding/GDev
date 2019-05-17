@@ -104,13 +104,14 @@ namespace Transpiler
 		}
 
 		// Finalize the composer
-		public static string FinalizeComposerCommand()
+		public static string AttachScriptsCommand()
 		{
 			string code = "\n";
 
-			code += "// Finalize the composer and set start scene as active scene\n";
-			code += "GDev.composer.finalize();\n";
-			code += "GDev.composer.setStartSceneAsActiveScene();\n";
+			code += "// Attach scripts to entites\n";
+			code += "GDev.composer.attachScripts();\n";
+			code += "// Set start scene\n";
+			code += "GDev.composer.setStartScene();\n";
 
 			return code;
 		}

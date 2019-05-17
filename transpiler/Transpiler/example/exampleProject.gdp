@@ -4,7 +4,7 @@
 {GDEV_PROPERTY}:ClsColor.r=0
 {GDEV_PROPERTY}:ClsColor.g=0
 {GDEV_PROPERTY}:ClsColor.b=0
-gdev_composer.js:176 
+gdev_composer.js:178 
 {SCENE}:scene1
 	{ENTITY}:entity1
 		{COMPONENT}:transform
@@ -43,7 +43,7 @@ gdev_composer.js:176
 					self.components.transform.x +=1;
 					if(self.components.transform.x > GDev.CanvasWidth)
 					{
-						GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
+						GDev.composer.deleteEntity(GDev.composer.thisScene, self);
                     	GDev.composer.goToScene("scene2");
 					}
 				},

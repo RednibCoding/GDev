@@ -1,58 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<code id=file>
-				// The following three functions have to be defined in every script
-				// even if they are empty
-
-				onCreate()
-				{
-					// Here goes code that should be executed
-					// at the creation of the entity
-					console.log("I have been created");
-				},
-
-				onTick()
-				{
-
-					// Here goes code that should be executed every game tick
-
-					// To access the entity this script is attached to
-					// simply use the keyword "self"
-					self.components.transform.x +=1;
-					if(self.components.transform.x > GDev.CanvasWidth)
-					{
-						GDev.composer.removeEntityFromScene(GDev.composer.thisScene, self);
-					}
-				},
-				
-				onDelete()
-				{
-					// Here goes code that should be executed
-					// at the deletion of an entity
-					this.myFunc(this.myName);
-				},
-				
-				
-				// the user can define variables and functions aswell
-				// however, these are createt in script context
-				// so they have to be reffered with 'this' when used
-				
-				// A variable
-				myName: self.name,
-				
-				// A Function
-				myFunc(val)
-				{
-					console.log(val);
-				}
-				
-		</code>
-
-			
-		
-
 	</head>
+
 	<body>
 		<script type="text/javascript" src="../deps/js/jbb.js"></script>
 		<script type="text/javascript" src="../engine/gdev_main.js"></script>
