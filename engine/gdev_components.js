@@ -5,7 +5,7 @@
 //  For more info, see: gdev_ecs.js
 //
 //
-// Node: All variables that get not only declared but also defined
+// Note: All variables that get not only declared but also defined
 // in the function, will automatically be exported to the .gdp-file when calling the GDev.Serializer.
 // That means, that the transpiler will consider them when creating the game.js out of the .gdp-file.
 //
