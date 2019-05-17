@@ -1,5 +1,5 @@
 /*
-    Class for manageing scenes entites (entites with the scene component attached)
+    Class for manageing scene entites (entites with the scene component attached)
     This class is just a manager class to make managing scene entities easier
 */
 
@@ -80,6 +80,7 @@ GDev.Composer.prototype.loadSprites = function loadSprites()
     }
 }
 
+// Set the start scene (the scene with "isStartScene=true" see: ComponentScene)
 GDev.Composer.prototype.setStartScene = function setStartScene()
 {
     var thisScene;
@@ -107,8 +108,8 @@ GDev.Composer.prototype.goToScene = function goToScene(sceneName)
     if(scene.components.scene)
     {
         this.thisScene = scene;
-        GDev.ECS.Systems.RunScript("onCreate", this.thisScene);
-        GDev.ECS.Systems.RunScripts("onCreate", this.thisScene.components.scene.entities);
+        // Call onCreate scripts of scene and it's entities
+        this.onCreate();
 
     }
 };
@@ -123,7 +124,7 @@ GDev.Composer.prototype.onCreate = function onCreate()
 GDev.Composer.prototype.onTick = function onTick()
 {
 
-    // Run the script of the current active scene
+    // Run the onTick script of the current active scene
     GDev.ECS.Systems.RunScript("onTick", this.thisScene);
 
     // Render this scene
@@ -138,7 +139,7 @@ GDev.Composer.prototype.onTick = function onTick()
 
         // Update the attached mouse listener
         GDev.ECS.Systems.UpdateMouseListener(thisEntity);
-        // Run the script of the entity
+        // Run the onTick script of the entity
         GDev.ECS.Systems.RunScript("onTick", thisEntity);
         // Render the entity
         GDev.ECS.Systems.RenderEntity(thisEntity);

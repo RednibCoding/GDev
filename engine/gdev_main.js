@@ -32,12 +32,14 @@ GDev.Update = function GDevUpdate()
     GDev.Keys.MouseX = MouseX();
     GDev.Keys.MouseY = MouseY();
     GDev.Keys.MouseDown = MouseDown(0);
-    //GDev.Keys.MouseHit = MouseHit(0); // BOTH doesn't work
+    //GDev.Keys.MouseHit = MouseHit(0); // BOTH doesn't work - find a solution
 
     GDev.CanvasWidth = GraphicsWidth();
     GDev.CanvasHeight = GraphicsHeight();
 };
 
+
+// --- Debug ---
 GDev.Serialize = function GDevSerialize(composer)
 {
     if(typeof composer === 'undefined')

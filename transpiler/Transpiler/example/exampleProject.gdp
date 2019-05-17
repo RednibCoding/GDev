@@ -4,20 +4,22 @@
 {GDEV_PROPERTY}:ClsColor.r=0
 {GDEV_PROPERTY}:ClsColor.g=0
 {GDEV_PROPERTY}:ClsColor.b=0
-gdev_composer.js:178 
+gdev_composer.js:196 
 {SCENE}:scene1
 	{ENTITY}:entity1
 		{COMPONENT}:transform
 			{PROPERTY}:x=200
 			{PROPERTY}:y=200
-			{PROPERTY}:rotation=0
-			{PROPERTY}:scaleX=1
-			{PROPERTY}:scaleY=1
+			{PROPERTY}:rotation=90
+			{PROPERTY}:scaleX=1.5
+			{PROPERTY}:scaleY=1.5
 		{END}
 		{COMPONENT}:sprite
 			{PROPERTY}:_imagePath='media/ship.png'
 			{PROPERTY}:isHidden=false
 			{PROPERTY}:isMidHandle=true
+			{PROPERTY}:cellRows=1
+			{PROPERTY}:cellColumns=1
 		{END}
 		{COMPONENT}:mouseListener
 		{END}
@@ -31,6 +33,9 @@ gdev_composer.js:178
 					// Here goes code that should be executed
 					// at the creation of the entity.
 					console.log(this.myName+" has been created");
+					self.components.transform.rotation = 90;
+					self.components.transform.scaleX = 1.5;
+					self.components.transform.scaleY = 1.5;
 				},
 
 				onTick()
@@ -70,6 +75,7 @@ gdev_composer.js:178
 					console.log(val);
 				}
 })
+
 	{END}
 {END}
 {SCENE}:scene2

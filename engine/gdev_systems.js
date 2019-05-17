@@ -21,8 +21,31 @@ GDev.ECS.Systems.LoadSprite = function SystemLoadSprite(thisEntity)
         }
         else
         {
+            // Calculate cellCount
+            thisEntity.components.sprite.cellCount = thisEntity.components.sprite.cellRows * thisEntity.components.sprite.cellColumns;
+
+            // If cellcount is greater than 1, this sprite is a spritesheet
+            if(thisEntity.components.sprite.cellCount > 1)
+            {
+                thisEntity.components.sprite.isSpritesheet = true;
+            }
+            else
+            {
+                thisEntity.components.sprite.isSpritesheet = false;   
+            }
+
+            if(thisEntity.components.sprite.isSpritesheet)
+            {
+                thisEntity.components.sprite.image = LoadImage2(path, thisEntity.components.sprite.cellColumns, thisEntity.components.sprite.cellRows, 0);
+                //thisEntity.components.sprite.image = LoadImage(path, 46, 40, 1, 4);
+            }
+            else
+            {
+                thisEntity.components.sprite.image = LoadImage(path);
+            }
+            // Set the start frame to the first frame
+            thisEntity.components.sprite.currentFrame = 3;
             var isMidHandle = thisEntity.components.sprite.isMidHandle;
-            thisEntity.components.sprite.image = LoadImage(path);
             if(typeof thisEntity.components.sprite.image == 'undefined')
             {
                 console.error("ECS.Systems.LoadSprite: Unable to load image: " + path + " Entity.id: "+thisEntity.id);
@@ -79,7 +102,7 @@ GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
 
             RotateImage(image, rotation);
             ScaleImage(image, scaleX, scaleY);
-            DrawImage(image, x, y);
+            DrawImage(image, x, y, thisEntity.components.sprite.currentFrame);
             
             // when this entity is a combination of a sprite and text
             // then render the text aswell
@@ -243,15 +266,29 @@ GDev.ECS.Systems.UpdateMouseListener = function UpdateMouseListener(thisEntity)
         var spriteY = thisEntity.components.transform.y;
         var spriteWidth = ImageWidth(thisEntity.components.sprite.image);
         var spriteHeight = ImageHeight(thisEntity.components.sprite.image);
+        var isMidhandle = thisEntity.components.sprite.isMidHandle;
 
         thisEntity.components.mouseListener.isMouseHover = false;
 
         // Checking if mouse is hovering over the sprite
-        if(GDev.Keys.MouseX >= spriteX-spriteWidth/2 && GDev.Keys.MouseX <= spriteX + spriteWidth/2)
+        if(isMidhandle)
         {
-            if(GDev.Keys.MouseY >= spriteY-spriteHeight/2 && GDev.Keys.MouseY <= spriteY + spriteHeight/2)
+            if(GDev.Keys.MouseX >= spriteX-spriteWidth/2 && GDev.Keys.MouseX <= spriteX + spriteWidth/2)
             {
-                thisEntity.components.mouseListener.isMouseHover = true;
+                if(GDev.Keys.MouseY >= spriteY-spriteHeight/2 && GDev.Keys.MouseY <= spriteY + spriteHeight/2)
+                {
+                    thisEntity.components.mouseListener.isMouseHover = true;
+                }
+            }
+        }
+        else
+        {
+            if(GDev.Keys.MouseX >= spriteX && GDev.Keys.MouseX <= spriteX + spriteWidth)
+            {
+                if(GDev.Keys.MouseY >= spriteY && GDev.Keys.MouseY <= spriteY + spriteHeight)
+                {
+                    thisEntity.components.mouseListener.isMouseHover = true;
+                }
             }
         }
 

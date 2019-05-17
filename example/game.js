@@ -27,7 +27,7 @@ GDev.composer.addScene(scene1);
 // Create an entity
 var entity1 = new GDev.ECS.Entity('entity1');
 entity1.addComponent(new GDev.ECS.Components.Transform(200,200,0,1,1));
-entity1.addComponent(new GDev.ECS.Components.Sprite('media/ship.png',false,true));
+entity1.addComponent(new GDev.ECS.Components.Sprite('media/ship.png',false,false,2,2));
 entity1.addComponent(new GDev.ECS.Components.MouseListener());
 entity1.addComponent(new GDev.ECS.Components.Script(`({
 				// The following three "on"- functions have to be defined in every script,
@@ -77,6 +77,7 @@ entity1.addComponent(new GDev.ECS.Components.Script(`({
 					console.log(val);
 				}
 })
+
 `));
 // Add entity to scene
 GDev.composer.addEntityToScene(scene1,entity1);
@@ -102,6 +103,8 @@ GDev.composer.setStartScene();
 Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);
 ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
 TFormFilter(false);
+
+GDev.Serialize(GDev.composer);
 
 // Load all sprites
 GDev.composer.loadSprites();

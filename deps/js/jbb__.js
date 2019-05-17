@@ -81,7 +81,6 @@ var jBB;
             this.img = new Image();
             this.loaded = false;
             this.frame = { num: 1, width: 0, height: 0, start: 1, current: 1 };
-            this.cell = { columns: 0, rows: 0 };
             this.hndl = { x: 0, y: 0 };
             this.autoMidHandle = false;
             this.localMidHandle = false;
@@ -149,49 +148,29 @@ var jBB;
                 var r2 = { left: startX, top: startY, right: startX + width, bottom: startY + height };
                 return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
             };
-            this.cellsPerRow = function () { return Math.floor(_this.img.width / _this.frame.width); };
+            this.cellsPerRow = function () { return _this.img.width / _this.frame.width; };
             this.getTilePos = function (index) {
                 return { x: (index % _this.cellsPerRow() * _this.frame.width), y: (Math.floor(index / _this.cellsPerRow())) * _this.frame.height };
             };
             this.getTileIndex = function (x, y) { return (x / _this.frame.width) + (y / _this.frame.height * _this.cellsPerRow()); };
+            this.ctx = arg06;
+            this.cnv = this.ctx.data.canvas.ctx;
+            this.autoMidHandle = this.ctx.data.global.autoMidHandle;
             if (typeof (arg01) === "string") {
                 // load image
                 this.img.src = arg01;
-                // called by cellColumns and cellRows
-                if (arguments.length === 5) {
-                    if (typeof (arg02) === "number")
-                        this.cell.columns = arg02;
-                    if (typeof (arg03) === "number")
-                        this.cell.rows = arg03;
-                    this.frame.num = this.cell.columns * this.cell.rows;
-                    this.ctx = arg05;
-                }
-                // called by cellWidth and cellHeight
-                else if (arguments.length === 6) {
-                    if (typeof (arg02) === "number")
-                        this.frame.width = arg02;
-                    if (typeof (arg03) === "number")
-                        this.frame.height = arg03;
-                    this.frame.num = arg05;
-                    this.ctx = arg06;
-                }
+                if (typeof (arg02) === "number")
+                    this.frame.width = arg02;
+                if (typeof (arg03) === "number")
+                    this.frame.height = arg03;
                 this.frame.start = arg04;
-                this.cnv = this.ctx.data.canvas.ctx;
-                this.autoMidHandle = this.ctx.data.global.autoMidHandle;
+                this.frame.num = arg05;
+                this.ctx = arg06;
                 this.img.onload = function (data) {
                     _this.loaded = true;
                     if (_this.frame.num === 1) {
                         _this.frame.width = _this.img.width;
                         _this.frame.height = _this.img.height;
-                        _this.cell.columns = 1;
-                        _this.cell.rows = 1;
-                    }
-                    else if (_this.frame.num >= 2) {
-                        // called by cellColumns and cellRows
-                        if (_this.cell.columns + _this.cell.rows > 0) {
-                            _this.frame.width = Math.floor(_this.img.width / _this.cell.columns);
-                            _this.frame.height = Math.floor(_this.img.height / _this.cell.rows);
-                        }
                     }
                 };
             }
@@ -412,10 +391,6 @@ var jBB;
                 if (cellCount === void 0) { cellCount = 1; }
                 return new jBB.jImage(path, cellWidth, cellHeight, startCell, cellCount, _this);
             };
-            this.loadImage2 = function (path, cellColumns, cellRows, startCell) {
-                if (startCell === void 0) { startCell = 1; }
-                return new jBB.jImage(path, cellColumns, cellRows, startCell, _this);
-            };
             this.drawImage = function (img, x, y, frame) {
                 if (frame === void 0) { frame = 1.0; }
                 img.draw(x, y, frame);
@@ -436,9 +411,6 @@ var jBB;
             };
             this.createImage = function (width, height, frames) { return new jBB.jImage(width, height, frames, _this); };
             this.imageRectOverlap = function (img, x, y, startX, startY, width, height) { return img.rectOverlap(x, y, startX, startY, width, height); };
-            // ==== sound ====
-            this.loadMusic = function (filename) { return new jBB.jMusic(filename); };
-            this.playMusic = function (sound) { sound.play(); };
             if (typeof (arg01) == "number") {
                 // (width, height, [mainloop])
                 this.data.lastID++;
@@ -462,9 +434,7 @@ var jBB;
             this.data.mouse = new jBB.jMouse(this);
             this.data.keyboard = new jBB.jKeyboard(this);
             this.data.font.default = new jBB.jFont("", "Arial", this);
-            window.onload = function () {
-                _this.data.ready = true;
-            };
+            window.onload = function () { _this.data.ready = true; };
             this.createBackbuffer();
             window.requestAnimationFrame(this.render);
         }
@@ -539,31 +509,6 @@ var jBB;
     }());
     jBB.jMouse = jMouse;
 })(jBB || (jBB = {}));
-var jBB;
-(function (jBB) {
-    var jMusic = /** @class */ (function () {
-        function jMusic(filename, autoPlay, loop) {
-            var _this = this;
-            if (filename === void 0) { filename = ""; }
-            if (autoPlay === void 0) { autoPlay = true; }
-            if (loop === void 0) { loop = true; }
-            this.loaded = false;
-            this.play = function () {
-                _this.music.play();
-            };
-            if (filename !== "") {
-                this.load(filename);
-            }
-        }
-        jMusic.prototype.load = function (filename, autoPlay, loop) {
-            if (autoPlay === void 0) { autoPlay = true; }
-            if (loop === void 0) { loop = true; }
-            this.music = new Audio(filename);
-        };
-        return jMusic;
-    }());
-    jBB.jMusic = jMusic;
-})(jBB || (jBB = {}));
 var jBBContext = {
     context: undefined
 };
@@ -618,17 +563,9 @@ function DrawText(txt, x, y) {
 function AutoMidHandle(value) { jBBContext.context.autoMidHandle(value); }
 function MidHandle(img, value) { jBBContext.context.midHandle(img, value); }
 function LoadImage(path, cellWidth, cellHeight, startCell, cellCount) {
-    if (cellWidth === void 0) { cellWidth = 1; }
-    if (cellHeight === void 0) { cellHeight = 1; }
     if (startCell === void 0) { startCell = 1; }
     if (cellCount === void 0) { cellCount = 1; }
     return jBBContext.context.loadImage(path, cellWidth, cellHeight, startCell, cellCount);
-}
-function LoadImage2(path, cellColumns, cellRows, startCell) {
-    if (cellColumns === void 0) { cellColumns = 1; }
-    if (cellRows === void 0) { cellRows = 1; }
-    if (startCell === void 0) { startCell = 1; }
-    return jBBContext.context.loadImage2(path, cellColumns, cellRows, startCell);
 }
 function DrawImage(img, x, y, frame) {
     if (frame === void 0) { frame = 1; }
@@ -664,9 +601,6 @@ function KeyHit(key) { return jBBContext.context.keyHit(key); }
 function FlushKeys() { jBBContext.context.flushKeys(); }
 // ==== time ====
 function MilliSecs() { return jBBContext.context.milliSecs(); }
-// ==== sound === 
-function LoadMusic(filename) { return jBBContext.context.loadMusic(filename); }
-function PlayMusic(music) { music.play(); }
 var jBB;
 (function (jBB) {
     var jTime = /** @class */ (function () {

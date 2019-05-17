@@ -45,7 +45,39 @@ GDev.ECS.Components.Text.prototype.name = 'text';
 // Note: All variables that can be changed by the user must be passable
 // as function argument
 // ----------------------------------------------------------------------------
-GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = false, isMidHandle = true)
+GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = false, isMidHandle = true, cellColumns = 1, cellRows = 1)
+{
+    imagePath = imagePath || "";
+    this._imagePath = imagePath;
+
+    // Must be loaded via 'LoadImage(this._imagePath)'
+    this.image;
+
+    // Determines if a sprite is hidden or not
+    this.isHidden = isHidden;
+
+    // Set the image origin point to the middle
+    this.isMidHandle = isMidHandle;
+
+    // If this image is a sprite sheet
+    // These parameters can be changed according to the spritesheet
+    // If cellCount is greater than 1, this sprite is considered as spritesheet
+    // For more info see: System LoadSprite
+    this.cellRows = cellRows;
+    this.cellColumns = cellColumns;
+    this.cellCount;
+    this.cellWidth;
+    this.cellHeight;
+    this.isSpritesheet;
+    this.currentFrame;
+
+    return this;
+};
+GDev.ECS.Components.Sprite.prototype.name = 'sprite';
+
+
+// Animated sprite component
+GDev.ECS.Components.AnimatedSprite = function ComponentAnimatedSprite(imagePath, isHidden = false, isMidHandle = true)
 {
     imagePath = imagePath || "";
     this._imagePath = imagePath;
@@ -60,8 +92,8 @@ GDev.ECS.Components.Sprite = function ComponentSprite(imagePath, isHidden = fals
     this.isMidHandle = isMidHandle;
 
     return this;
-};
-GDev.ECS.Components.Sprite.prototype.name = 'sprite';
+}
+GDev.ECS.Components.AnimatedSprite.prototype.name = 'AnimatedSprite';
 
 
 // Script component
@@ -108,7 +140,10 @@ GDev.ECS.Components.Scene = function ComponentScene(isStartScene = false)
     {
         console.error("isStartScene is not of type Boolean!")
     }
+
+    // Entry scene of the game
     this.isStartScene = isStartScene;
+
     // List of all entities in this scene
     this.entities = {};
     return this;
