@@ -1,0 +1,37 @@
+{
+    "transform": {
+        "x": 100,
+        "y": 100,
+        "rotation": 0,
+        "scaleX": 1,
+        "scaleY": 1
+    },
+
+    "text": {
+        "value": "Enter Text",
+        "isHidden": false,
+        "offsetX": 0,
+        "offsetY": 0
+    },
+
+    "sprite":{
+        "imagePath": "path",
+        "isHidden": false,
+        "isMiddHandle": true,
+        "cellColumns": 1,
+        "cellRows": 1
+    },
+
+    "script":{
+        "code": ""
+    },
+
+    "scene": {
+        "isStartScene": false
+    },
+
+    "mouseListener":{
+    }
+
+
+}
