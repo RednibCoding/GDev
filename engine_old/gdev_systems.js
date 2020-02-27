@@ -2,17 +2,15 @@
 // Systems
 //  To create systems, just add them here.
 //  Some examples are already given below.
-//  For more info, see: gdev_entity.js
+//  For more info, see: gdev_ecs.js
 // ##################################################################
-
-"use-strict"
 
 // LoadSprite
 // Load the sprites of the given entity
 //  Required components:
 //  - Sprite
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.loadSprite = (thisEntity) =>
+GDev.ECS.Systems.LoadSprite = function SystemLoadSprite(thisEntity)
 {
     if(thisEntity.components.sprite)
     {
@@ -49,7 +47,7 @@ GDev.ECS.Systems.loadSprite = (thisEntity) =>
             thisEntity.components.sprite.currentFrame = 1;
 
             var isMidHandle = thisEntity.components.sprite.isMidHandle;
-            if(typeof thisEntity.components.sprite.image == "undefined")
+            if(typeof thisEntity.components.sprite.image == 'undefined')
             {
                 console.error("ECS.Systems.LoadSprite: Unable to load image: " + path + " Entity.id: "+thisEntity.id);
             }
@@ -62,19 +60,39 @@ GDev.ECS.Systems.loadSprite = (thisEntity) =>
     }
 }
 
+// LoadSprites
+// Load the sprites of all given entities
+//  Required components:
+//  - Sprite
+// ----------------------------------------------------------------------------
+GDev.ECS.Systems.LoadSprites = function SystemLoadSprites(entities)
+{
+    // Takes an array of entities
+    // and loads their sprite image into memory
+    // (Optimization: only pass entities with ComponentSprite attached)
+
+    var thisEntity;
+
+    for(var id in entities)
+    {
+        thisEntity = entities[id];
+        GDev.ECS.Systems.LoadSprite(thisEntity);
+       
+    }
+}
+
 // Render one entity
 //  Required components:
 //  - Transform
 //  - Sprite
-//  - Text
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.renderEntity = (thisEntity) =>
+GDev.ECS.Systems.RenderEntity = function SystemRenderEntity(thisEntity)
 {
     // Render the sprite image
     if(thisEntity.components.sprite && thisEntity.components.transform)
     {
         // when it is not flagged hidden
-        if(thisEntity.components.sprite.isVisible)
+        if(!thisEntity.components.sprite.isHidden)
         {
             var image = thisEntity.components.sprite.image;
             var x = thisEntity.components.transform.x;
@@ -120,16 +138,15 @@ GDev.ECS.Systems.renderEntity = (thisEntity) =>
 // Must be called once before main loop
 //  Required components:
 //  - Script
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.evaluateScripts = (entities) =>
+GDev.ECS.Systems.EvaluateScripts = function EvaluateScripts(entities)
 {
     // Takes an array of entities
     // and evaluates the script attached to them.
     // Each script must consist of three functions:
     //  - onCreate()
-    //  - onTick()
+    //  - onRender()
     //  - onDelete()
-    // EvaluateScripts parses the source code string of the attached script and creates
+    // TranspileScript parses the source code string of the attached script and creates
     // these three function and attaches them to the assosiated entity.
     // The RunScript System can then simply call these functions.
     // (Optimization: only pass entities with ComponentScript attached)
@@ -156,11 +173,11 @@ GDev.ECS.Systems.evaluateScripts = (entities) =>
 // type is the function type that should be run (onCreate, onRender, onDelete)
 //  Required components:
 //  - Script
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.invoke = (type, thisEntity) =>
+GDev.ECS.Systems.RunScript = function RunScripts(type, thisEntity)
 {
     if(thisEntity.components.script)
     {
+        // TODO: find a better solution than switch
         switch(type)
         {
             case "onCreate":
@@ -176,11 +193,25 @@ GDev.ECS.Systems.invoke = (type, thisEntity) =>
     }
 }
 
+// Runs the scripts attached to all the given entities
+// type is the function type that should be run (onCreate, onRender, onDelete)
+//  Required components:
+//  - Script
+GDev.ECS.Systems.RunScripts = function RunScripts(type, entities)
+{
+    var thisEntity;
+
+    for(var id in entities)
+    {
+        thisEntity = entities[id];
+        GDev.ECS.Systems.RunScript(type, thisEntity);
+    }
+}
+
 // If an entity has the scene component, then entites can be added to it
 //  Required components:
 //  - Scene
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.addEntityToScene = (sceneEntity, newEntity) =>
+GDev.ECS.Systems.AddEntityToScene = function AddEntityToScene(sceneEntity, newEntity)
 {
     if(sceneEntity.components.scene)
     {
@@ -191,57 +222,43 @@ GDev.ECS.Systems.addEntityToScene = (sceneEntity, newEntity) =>
 // If an entity has the scene component, then entites can be deleted from it
 //  Required components:
 //  - Scene
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.deleteEntityFromScene = (sceneEntity, entityToDelete) =>
+GDev.ECS.Systems.DeleteEntity = function DeleteEntity(sceneEntity, entityToDelete)
 {
     if(sceneEntity.components.scene)
     {
         // before deleting the entity, call its user defined onDelete function
-        GDev.ECS.Systems.invoke("onDelete", entityToDelete);
+        GDev.ECS.Systems.RunScript("onDelete", entityToDelete);
         delete sceneEntity.components.scene.entities[entityToDelete.id];
     }
 }
 
-// If an entity has the scene component, then it can be deleted including all its attached entities
+// If an entity has the scene component, then it can be freed so all its attached entities getting deleted
 //  Required components:
 //  - Scene
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.deleteScene = (sceneEntity) =>
+GDev.ECS.Systems.FreeSceneEntity = function FreeSceneEntity(sceneEntity)
 {
     if(sceneEntity.components.scene)
     {
         // If the scene entity has a script component
         // then call its user defined onDelete function
-        GDev.ECS.Systems.invoke("onDelete", sceneEntity);
+        GDev.ECS.Systems.RunScript("onDelete", sceneEntity);
 
         // And remove all entites from the scene (and also call their onDelete function)
         var entityToDelete;
         for(var id in sceneEntity.components.scene.entities)
         {
             entityToDelete = entities[id];
-            GDev.ECS.Systems.deleteEntityFromScene(sceneEntity, entityToDelete)
+            GDev.ECS.Systems.DeleteEntity(sceneEntity, entityToDelete)
         }
     }
 }
-
-
-// ----------------------------------------------------------------------------
-//
-// Below are the System functions that should be called on every tick
-// and takes an entity as argument.
-// Therefore, they should be registered via:
-// GDev.composer.registerTickFunction(GDev.ECS.Systems.myFunction(thisEntity))
-//
-// ----------------------------------------------------------------------------
-
 
 // Update the Mouselistener for the given entity
 //  Required components:
 //  - MouseListener
 //  - Sprite
 //  - Transform
-// ----------------------------------------------------------------------------
-GDev.ECS.Systems.updateMouseListener = (thisEntity) =>
+GDev.ECS.Systems.UpdateMouseListener = function UpdateMouseListener(thisEntity)
 {
     if(thisEntity.components.mouseListener && thisEntity.components.sprite && thisEntity.components.transform)
     {
@@ -288,5 +305,3 @@ GDev.ECS.Systems.updateMouseListener = (thisEntity) =>
         }
     }
 }
-// Register this function to the composer so it gets executed on every tick
-GDev.composer.registerTickFunction(GDev.ECS.Systems.updateMouseListener)
