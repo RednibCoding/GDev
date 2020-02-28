@@ -105,7 +105,9 @@ GDev.composer.attachScripts();
 GDev.composer.setStartScene();
 
 // Initialize the graphics context
-Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);
+//width:number = 640, height:number = 480, mainLoop:string = "main", canvasID:string, parentElement:string
+//Graphics(GDev.Properties.CanvasWidth, GDev.Properties.CanvasHeight, GDev.Properties.AppTitle);
+GraphicsFrom("canvas", GDev.Properties.AppTitle);
 ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
 TFormFilter(false);
 

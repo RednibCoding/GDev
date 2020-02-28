@@ -35,6 +35,51 @@ var jBB;
 })(jBB || (jBB = {}));
 var jBB;
 (function (jBB) {
+    var jFile = /** @class */ (function () {
+        function jFile(filename) {
+            var _this = this;
+            this._get = function () {
+            };
+            this._put = function (value) {
+            };
+            this._onDBOpenSuccess = function (evt) {
+                _this.db = evt.target.result;
+                var val = _this.db.transaction([_this.filename], 'readwrite').objectStore(_this.filename).get(1);
+                val.onsuccess = function () {
+                    if (val.hasOwnProperty('result') && val.result.hasOwnProperty('content'))
+                        _this.content = val.result.content;
+                };
+                val.onerror = function () {
+                    // wenn die Datei noch nicht existiert soll sie angelegt werden
+                    var newFile = _this.db.transaction([_this.filename], 'readwrite').objectStore(_this.filename).put({ 'id': 1, 'content': 'test\n' });
+                    _this.content = '';
+                };
+            };
+            this._onDBUpgradeNeeded = function (evt) {
+                _this.db = evt.target.result;
+                if (!_this.db.objectStoreNames.contains(_this.filename)) {
+                    _this.objectStore = _this.db.createObjectStore(_this.filename, { keyPath: 'id' });
+                }
+            };
+            this._onDBOpenError = function (evt) { console.log(evt.target.errorCode); };
+            this.writeString = function (value) {
+            };
+            this.readString = function () {
+                var result = null;
+                return result;
+            };
+            this.filename = filename;
+            var request = window.indexedDB.open('jBBIDB', 1);
+            request.onsuccess = this._onDBOpenSuccess;
+            request.onerror = this._onDBOpenError;
+            request.onupgradeneeded = this._onDBUpgradeNeeded;
+        }
+        return jFile;
+    }());
+    jBB.jFile = jFile;
+})(jBB || (jBB = {}));
+var jBB;
+(function (jBB) {
     var jFont = /** @class */ (function () {
         function jFont(path, name, context) {
             var _this = this;
@@ -93,6 +138,8 @@ var jBB;
                 var origY = y;
                 x /= _this.scaleFac.x;
                 y /= _this.scaleFac.y;
+                if (frame > _this.frame.num)
+                    frame = _this.frame.current;
                 if (_this.loaded == true) {
                     var tilePos = _this.getTilePos(frame - 1);
                     var dx = x - _this.hndl.x;
@@ -230,6 +277,7 @@ var jBB;
                     height: 480
                 },
                 mainLoop: "main",
+                parentElement: null,
                 color: {
                     cls: new jBB.jColor(),
                     draw: new jBB.jColor(255, 255, 255, 1.0)
@@ -242,7 +290,8 @@ var jBB;
                 mouse: null,
                 keyboard: null,
                 time: new jBB.jTime(),
-                font: { current: null, default: null }
+                font: { current: null, default: null },
+                db: null
             };
             this.createBackbuffer = function () {
                 var bbuf = document.createElement("canvas");
@@ -269,7 +318,13 @@ var jBB;
                 _this.data.canvas.element.width = _this.data.canvas.width;
                 _this.data.canvas.element.height = _this.data.canvas.height;
                 _this.data.canvas.element.appendChild(document.createTextNode("your browser doesn't support the canvas element"));
-                document.body.appendChild(_this.data.canvas.element);
+                var parent = document.getElementById(_this.data.parentElement);
+                if (parent) {
+                    parent.appendChild(_this.data.canvas.element);
+                }
+                else {
+                    document.body.appendChild(_this.data.canvas.element);
+                }
             };
             this.preRender = function () {
                 _this.data.canvas.ctx.save();
@@ -439,6 +494,9 @@ var jBB;
             // ==== sound ====
             this.loadMusic = function (filename) { return new jBB.jMusic(filename); };
             this.playMusic = function (sound) { sound.play(); };
+            // ==== file ====
+            this.openFile = function (filename) { return new jBB.jFile(filename); };
+            this.readString = function (fileHandle) { return fileHandle.readString(); };
             if (typeof (arg01) == "number") {
                 // (width, height, [mainloop])
                 this.data.lastID++;
@@ -457,13 +515,17 @@ var jBB;
                     this.data.mainLoop = arg02;
                 this.getCanvasElement();
             }
+            // canvas
             this.data.canvas.ctx = this.data.canvas.element.getContext('2d');
             this.data.canvas.ctx.lineWidth = 1;
+            // input
             this.data.mouse = new jBB.jMouse(this);
             this.data.keyboard = new jBB.jKeyboard(this);
+            // font
             this.data.font.default = new jBB.jFont("", "Arial", this);
             window.onload = function () {
                 _this.data.ready = true;
+                _this.data.canvas.element.focus();
             };
             this.createBackbuffer();
             window.requestAnimationFrame(this.render);
@@ -507,6 +569,14 @@ var jBB;
                 var r = _this.ctx.data.canvas.element.getBoundingClientRect();
                 _this.x = event.clientX - r.left;
                 _this.y = event.clientY - r.top;
+                var touches = event.changedTouches;
+                if (touches && touches.length) {
+                    for (var i = 0; i < event.changedTouches.length; i++) {
+                        var touchId = event.changedTouches[i].identifier;
+                        _this.x = event.changedTouches[i].pageX - r.left;
+                        _this.y = event.changedTouches[i].pageY - r.top;
+                    }
+                }
             };
             this.saveMouseDown = function (event) { _this.keys[event.button] = true; };
             this.saveMouseUp = function (event) { _this.keys[event.button] = false; };
@@ -534,6 +604,9 @@ var jBB;
             this.ctx.data.canvas.element.onmousemove = this.saveMousePos;
             this.ctx.data.canvas.element.onmousedown = this.saveMouseDown;
             this.ctx.data.canvas.element.onmouseup = this.saveMouseUp;
+            this.ctx.data.canvas.element.ontouchmove = this.saveMousePos;
+            this.ctx.data.canvas.element.ontouchstart = this.saveMouseDown;
+            this.ctx.data.canvas.element.ontouchend = this.saveMouseUp;
         }
         return jMouse;
     }());
@@ -573,6 +646,10 @@ function Graphics(width, height, mainLoop) {
     if (height === void 0) { height = 480; }
     if (mainLoop === void 0) { mainLoop = "main"; }
     jBBContext.context = new jBB.Core(width, height, mainLoop);
+}
+function GraphicsFrom(canvasID, mainLoop) {
+    if (mainLoop === void 0) { mainLoop = "main"; }
+    jBBContext.context = new jBB.Core(canvasID, mainLoop);
 }
 function Cls() { jBBContext.context.cls(); }
 function ClsColor(red, green, blue) {
@@ -667,6 +744,8 @@ function MilliSecs() { return jBBContext.context.milliSecs(); }
 // ==== sound === 
 function LoadMusic(filename) { return jBBContext.context.loadMusic(filename); }
 function PlayMusic(music) { music.play(); }
+// ==== file === 
+function OpenFile(filename) { return jBBContext.context.openFile(filename); }
 var jBB;
 (function (jBB) {
     var jTime = /** @class */ (function () {
