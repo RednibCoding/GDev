@@ -95,7 +95,7 @@ GDev.ECS.Systems.renderEntity = function(thisEntity)
                 {
                     var x = thisEntity.components.Transform.x + thisEntity.components.Text.offsetX;
                     var y = thisEntity.components.Transform.y + thisEntity.components.Text.offsetY;
-                    var text = thisEntity.components.Text.value;
+                    var text = thisEntity.components.Text.text;
                     DrawText(text, x, y);
                 }
             }
@@ -109,7 +109,7 @@ GDev.ECS.Systems.renderEntity = function(thisEntity)
         {
             var x = thisEntity.components.Transform.x + thisEntity.components.Text.offsetX;
             var y = thisEntity.components.Transform.y + thisEntity.components.Text.offsetY;
-            var text = thisEntity.components.Text.value;
+            var text = thisEntity.components.Text.text;
             DrawText(text, x, y);
         }
     }
@@ -288,5 +288,5 @@ GDev.ECS.Systems.updateMouseListener = function(thisEntity)
         }
     }
 }
-// Register this function to the composer so it gets executed on every tick
+// Register this function to GDev so it gets executed on every tick
 GDev.registerTickFunction(GDev.ECS.Systems.updateMouseListener)

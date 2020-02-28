@@ -277,7 +277,6 @@ var jBB;
                     height: 480
                 },
                 mainLoop: "main",
-                parentElement: null,
                 color: {
                     cls: new jBB.jColor(),
                     draw: new jBB.jColor(255, 255, 255, 1.0)
@@ -311,6 +310,8 @@ var jBB;
             };
             this.getCanvasElement = function () {
                 _this.data.canvas.element = document.getElementById(_this.data.canvas.id);
+                _this.data.canvas.width = _this.data.canvas.element.width;
+                _this.data.canvas.height = _this.data.canvas.element.height;
             };
             this.createCanvasElement = function () {
                 _this.data.canvas.element = document.createElement("canvas");
@@ -318,13 +319,6 @@ var jBB;
                 _this.data.canvas.element.width = _this.data.canvas.width;
                 _this.data.canvas.element.height = _this.data.canvas.height;
                 _this.data.canvas.element.appendChild(document.createTextNode("your browser doesn't support the canvas element"));
-                var parent = document.getElementById(_this.data.parentElement);
-                if (parent) {
-                    parent.appendChild(_this.data.canvas.element);
-                }
-                else {
-                    document.body.appendChild(_this.data.canvas.element);
-                }
             };
             this.preRender = function () {
                 _this.data.canvas.ctx.save();
