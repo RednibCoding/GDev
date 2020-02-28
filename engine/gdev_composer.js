@@ -1,10 +1,10 @@
 /*
     Class for manageing scene entites (entites with the scene component attached)
-    This class is just a manager class to make managing scene entities easier
+    This class is a manager class to make managing scene entities easier
 */
 
 // ----------------------------------------------------------------------------
-GDev.Composer = () =>
+GDev.Composer = function()
 {
     // The scene that is currently active (shown)
     this.thisScene;
@@ -19,23 +19,11 @@ GDev.Composer = () =>
     return this;
 }
 
-GDev.Composer.prototype.registerTickFunction = (tickFunction) =>
-{
-    if(typeof tickFunction === "function")
-    {
-        this.systemTickFunctions.push(tickFunction);
-    }
-    else
-    {
-        console.log("Unable to register System-Tick-Function!")
-    }
-}
-
 // Add a scene to the composer
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.addScene = (sceneEntity) =>
+GDev.Composer.prototype.addScene = function(sceneEntity)
 {
-    if(sceneEntity.components.scene)
+    if(sceneEntity.components.Scene)
     {
         this.scenes[sceneEntity.name] = sceneEntity;
     }
@@ -43,7 +31,7 @@ GDev.Composer.prototype.addScene = (sceneEntity) =>
 
 // Delete a scene
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.deleteScene = (sceneEntity) =>
+GDev.Composer.prototype.deleteScene = function(sceneEntity)
 {
     // Delete all entites in the scene as well
     GDev.ECS.Systems.deleteScene(sceneEntity);
@@ -52,21 +40,21 @@ GDev.Composer.prototype.deleteScene = (sceneEntity) =>
 
 // Add an entity to the given scene
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.addEntityToScene = (sceneEntity, newEntity) =>
+GDev.Composer.prototype.addEntityToScene = function(sceneEntity, newEntity)
 {
     GDev.ECS.Systems.addEntityToScene(sceneEntity, newEntity);
 };
 
 // Delete an entity
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.deleteEntity = (sceneEntity, entityToDelete) =>
+GDev.Composer.prototype.deleteEntity = function(sceneEntity, entityToDelete)
 {
     GDev.ECS.Systems.deleteEntityFromScene(sceneEntity, entityToDelete);
 };
 
 // Call this once when all scenes have been created and added
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.attachScripts = () =>
+GDev.Composer.prototype.attachScripts = function()
 {
     // Evaluating the scripts attached to the scenes
     GDev.ECS.Systems.evaluateScripts(this.scenes)
@@ -76,9 +64,9 @@ GDev.Composer.prototype.attachScripts = () =>
     for(var id in this.scenes)
     {
         thisScene = this.scenes[id];
-        if(thisScene.components.scene)
+        if(thisScene.components.Scene)
         {
-            GDev.ECS.Systems.evaluateScripts(thisScene.components.scene.entities)
+            GDev.ECS.Systems.evaluateScripts(thisScene.components.Scene.entities)
         }
     }
 }
@@ -86,22 +74,22 @@ GDev.Composer.prototype.attachScripts = () =>
 // Load the sprites of all scenes and their entities
 // Only call this once and after the graphics context has been created (Graphics)
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.loadSprites = () =>
+GDev.Composer.prototype.loadSprites = function()
 {
-    // Load the sprites that are directly attached to the scene
-    GDev.ECS.Systems.loadSprites(this.scenes);
-
-    // Also load the sprites of all entites of each scene
     var thisScene;
     for(var id in this.scenes)
     {
         thisScene = this.scenes[id];
-        if(thisScene.components.scene)
+        if(thisScene.components.Scene)
         {
+            // Load the sprite that are directly attached to the scene
+            GDev.ECS.Systems.loadSprite(thisScene);
+
+            // Also load the sprites of all entites of each scene
             var thisEntity;
-            for(const id in thisScene.components.scene.entities)
+            for(const id in thisScene.components.Scene.entities)
             {
-                thisEntity = thisScene.components.scene.entities[id];
+                thisEntity = thisScene.components.Scene.entities[id];
                 GDev.ECS.Systems.loadSprite(thisEntity);
             
             }
@@ -111,16 +99,17 @@ GDev.Composer.prototype.loadSprites = () =>
 
 // Set the start scene (the scene with "isStartScene=true" see: Component: Scene)
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.setStartScene = () =>
+GDev.Composer.prototype.setStartScene = function()
 {
     var thisScene;
     for(var id in this.scenes)
     {
         thisScene = this.scenes[id];
-        if(thisScene.components.scene)
+        if(thisScene.components.Scene)
         {
-            if(thisScene.components.scene.isStartScene)
+            if(thisScene.components.Scene.isStartScene)
             {
+                console.log("Start scene set to: '"+thisScene.name+"'")
                 this.goToScene(thisScene.name);
             }
         }
@@ -129,7 +118,7 @@ GDev.Composer.prototype.setStartScene = () =>
 
 // Switch to the given scene
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.goToScene = (sceneName) =>
+GDev.Composer.prototype.goToScene = function(sceneName)
 {
     scene = this.scenes[sceneName];
     if(typeof scene === "undefined")
@@ -137,33 +126,34 @@ GDev.Composer.prototype.goToScene = (sceneName) =>
         console.error("Unknown scene: "+sceneName)
     }
     // Set active scene
-    if(scene.components.scene)
+    if(scene.components.Scene)
     {
         this.thisScene = scene;
         // Call onCreate scripts of scene and it's entities
         this.invokeOnCreate();
+        console.log("Switched to scene: '"+this.thisScene.name+"'")
     }
 };
 
 // Invoke onCreate functions of this scene and it's entities
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.invokeOnCreate = () =>
+GDev.Composer.prototype.invokeOnCreate = function()
 {
     // Invoke "onCreate" of the scene entity
     GDev.ECS.Systems.invoke("onCreate", this.thisScene);
 
     // Also invoke "onCreate" of each entity in this scene
     var thisEntity;
-    for(var id in this.thisScene.components.scene.entities)
+    for(var id in this.thisScene.components.Scene.entities)
     {
-        thisEntity = this.thisScene.components.scene.entities[id];
+        thisEntity = this.thisScene.components.Scene.entities[id];
         GDev.ECS.Systems.invoke("onCreate", thisEntity);
     }
 }
 
 // This is the main game loop
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.invokeOnTick = () =>
+GDev.Composer.prototype.invokeOnTick = function()
 {
 
     // Invoke "onTick" of the current active scene
@@ -175,12 +165,12 @@ GDev.Composer.prototype.invokeOnTick = () =>
     var thisEntity;
 
     // Go through each entity in the scene
-    for(var id in this.thisScene.components.scene.entities)
+    for(var id in this.thisScene.components.Scene.entities)
     {
-        thisEntity = this.thisScene.components.scene.entities[id];
+        thisEntity = this.thisScene.components.Scene.entities[id];
 
         // Invoke all attached GDev.Systems.Tickfunctions
-        for(const tickFunction of this.systemTickFunctions)
+        for(const tickFunction of GDev.systemTickFunctions)
         {
             tickFunction(thisEntity);
         }
@@ -192,7 +182,7 @@ GDev.Composer.prototype.invokeOnTick = () =>
 };
 
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.dump = () =>
+GDev.Composer.prototype.dump = function()
 {
     // dump information about the composer
     console.log(JSON.stringify(this, null, 4));

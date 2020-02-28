@@ -1,0 +1,74 @@
+{
+	"properties": {
+		"apptitle": "MyTitle",
+		"canvasWidth": 800,
+		"canvasHeight": 600,
+		"startScene" : "scene1",
+		"clsColor": {
+			"red": 0,
+			"green": 0,
+			"blue": 0
+		}
+	},
+	"scenes": {
+		"scene1" : {
+			"width": 1000,
+			"height": 600,
+			"bgRed": 0,
+			"bgGreen": 0,
+			"bgBlue": 0,
+			"components": {},
+			"entities": {
+				"entity1" : {
+					"components": {
+						"transform": {
+							"x": 100,
+							"y": 50,
+							"rotation": 0,
+							"scaleX": 1,
+							"scaleyY": 1
+						},
+						"sprite": {
+							"imagePath": "assets/player.png",
+							"isVisible": true,
+							"isMisHandle": true
+						}
+					}
+				},
+				"entity2": {
+					"components": {
+						"transform": {
+							"x": 100,
+							"y": 50,
+							"rotation": 0,
+							"scaleX": 1,
+							"scaleyY": 1
+						},
+						"text": {
+							"text": "My text",
+							"isVisible": true,
+							"offsetX": 0,
+							"offsetY": -10
+						}
+					}
+				}
+			}
+		},
+		"scene2": {
+			"bgRed": 0,
+			"bgGreen": 0,
+			"bgBlue": 0,
+			"components": {},
+			"entites":{
+				"entity3": {
+					"components": {
+						"script": {
+							"path": "assets/myScript.gds"
+						},
+						"mouseListener": {}
+					}
+				}
+			}
+		}
+	}
+}

@@ -12,11 +12,11 @@
 //  Required components:
 //  - Sprite
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.loadSprite = (thisEntity) =>
+GDev.ECS.Systems.loadSprite = function(thisEntity)
 {
-    if(thisEntity.components.sprite)
+    if(thisEntity.components.Sprite)
     {
-        var path = thisEntity.components.sprite._imagePath;
+        var path = thisEntity.components.Sprite._imagePath;
         if(path == "")
         {
             console.error("ECS.Systems.LoadSprite: 'imagePath' may not be empty! Entity id: "+thisEntity.id);
@@ -24,40 +24,39 @@ GDev.ECS.Systems.loadSprite = (thisEntity) =>
         else
         {
             // Calculate cellCount
-            thisEntity.components.sprite.cellCount = thisEntity.components.sprite.cellRows * thisEntity.components.sprite.cellColumns;
+            thisEntity.components.Sprite.cellCount = thisEntity.components.Sprite.cellRows * thisEntity.components.Sprite.cellColumns;
 
             // If cellcount is greater than 1, this sprite is a spritesheet
-            if(thisEntity.components.sprite.cellCount > 1)
+            if(thisEntity.components.Sprite.cellCount > 1)
             {
-                thisEntity.components.sprite.isSpritesheet = true;
+                thisEntity.components.Sprite.isSpritesheet = true;
             }
             else
             {
-                thisEntity.components.sprite.isSpritesheet = false;   
+                thisEntity.components.Sprite.isSpritesheet = false;   
             }
 
-            if(thisEntity.components.sprite.isSpritesheet)
+            if(thisEntity.components.Sprite.isSpritesheet)
             {
-                thisEntity.components.sprite.image = LoadImage2(path, thisEntity.components.sprite.cellColumns, thisEntity.components.sprite.cellRows, 0);
+                thisEntity.components.Sprite.image = LoadImage2(path, thisEntity.components.Sprite.cellColumns, thisEntity.components.Sprite.cellRows, 0);
             }
             else
             {
-                thisEntity.components.sprite.image = LoadImage(path);
+                thisEntity.components.Sprite.image = LoadImage(path);
             }
 
             // Set the start frame to the first frame
-            thisEntity.components.sprite.currentFrame = 1;
+            thisEntity.components.Sprite.currentFrame = 1;
 
-            var isMidHandle = thisEntity.components.sprite.isMidHandle;
-            if(typeof thisEntity.components.sprite.image == "undefined")
+            var isMidHandle = thisEntity.components.Sprite.isMidHandle;
+            if(typeof thisEntity.components.Sprite.image == "undefined")
             {
                 console.error("ECS.Systems.LoadSprite: Unable to load image: " + path + " Entity.id: "+thisEntity.id);
             }
             else
             {
-                MidHandle(thisEntity.components.sprite.image, isMidHandle);
+                MidHandle(thisEntity.components.Sprite.image, isMidHandle);
             }
-
         }
     }
 }
@@ -68,49 +67,49 @@ GDev.ECS.Systems.loadSprite = (thisEntity) =>
 //  - Sprite
 //  - Text
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.renderEntity = (thisEntity) =>
+GDev.ECS.Systems.renderEntity = function(thisEntity)
 {
     // Render the sprite image
-    if(thisEntity.components.sprite && thisEntity.components.transform)
+    if(thisEntity.components.Sprite && thisEntity.components.Transform)
     {
         // when it is not flagged hidden
-        if(thisEntity.components.sprite.isVisible)
+        if(thisEntity.components.Sprite.isVisible)
         {
-            var image = thisEntity.components.sprite.image;
-            var x = thisEntity.components.transform.x;
-            var y = thisEntity.components.transform.y;
-            var scaleX = thisEntity.components.transform.scaleX;
-            var scaleY = thisEntity.components.transform.scaleY;
-            var rotation = thisEntity.components.transform.rotation;
+            var image = thisEntity.components.Sprite.image;
+            var x = thisEntity.components.Transform.x;
+            var y = thisEntity.components.Transform.y;
+            var scaleX = thisEntity.components.Transform.scaleX;
+            var scaleY = thisEntity.components.Transform.scaleY;
+            var rotation = thisEntity.components.Transform.rotation;
 
             RotateImage(image, rotation);
             ScaleImage(image, scaleX, scaleY);
-            DrawImage(image, x, y, thisEntity.components.sprite.currentFrame);
+            DrawImage(image, x, y, thisEntity.components.Sprite.currentFrame);
             
             // when this entity is a combination of a sprite and text
             // then render the text aswell
             if(thisEntity.components.text)
             {
-                // when it is not flagged hidden
-                if(!thisEntity.components.text.isHidden)
+                // when it is flagged visible
+                if(thisEntity.components.text.isVisible)
                 {
-                    var x = thisEntity.components.transform.x + thisEntity.components.text.offsetX;
-                    var y = thisEntity.components.transform.y + thisEntity.components.text.offsetY;
-                    var text = thisEntity.components.text.value;
+                    var x = thisEntity.components.Transform.x + thisEntity.components.Text.offsetX;
+                    var y = thisEntity.components.Transform.y + thisEntity.components.Text.offsetY;
+                    var text = thisEntity.components.Text.value;
                     DrawText(text, x, y);
                 }
             }
         }
     }
     // If this entity only has text and no sprite then render just the text
-    else if(thisEntity.components.text && thisEntity.components.transform)
+    else if(thisEntity.components.Text && thisEntity.components.Transform)
     {
-        // when it is not flagged hidden
-        if(!thisEntity.components.text.isHidden)
+        // when it is flagged visible
+        if(thisEntity.components.Text.isVisible)
         {
-            var x = thisEntity.components.transform.x + thisEntity.components.text.offsetX;
-            var y = thisEntity.components.transform.y + thisEntity.components.text.offsetY;
-            var text = thisEntity.components.text.value;
+            var x = thisEntity.components.Transform.x + thisEntity.components.Text.offsetX;
+            var y = thisEntity.components.Transform.y + thisEntity.components.Text.offsetY;
+            var text = thisEntity.components.Text.value;
             DrawText(text, x, y);
         }
     }
@@ -121,7 +120,7 @@ GDev.ECS.Systems.renderEntity = (thisEntity) =>
 //  Required components:
 //  - Script
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.evaluateScripts = (entities) =>
+GDev.ECS.Systems.evaluateScripts = function(entities)
 {
     // Takes an array of entities
     // and evaluates the script attached to them.
@@ -131,7 +130,7 @@ GDev.ECS.Systems.evaluateScripts = (entities) =>
     //  - onDelete()
     // EvaluateScripts parses the source code string of the attached script and creates
     // these three function and attaches them to the assosiated entity.
-    // The RunScript System can then simply call these functions.
+    // The Invoke System can then simply call these functions.
     // (Optimization: only pass entities with ComponentScript attached)
 
     // The entity (named self to be able to access the entity with "self" within the script)
@@ -143,34 +142,35 @@ GDev.ECS.Systems.evaluateScripts = (entities) =>
 
         // Attaching the variables and functions defined in the script file
         // to the entity to make them available in javascript
-        if(self.components.script)
+        if(self.components.Script)
         {
-            var code = self.components.script.code;
+            var code = self.components.Script.code;
+            code = "({"+code+"})"
             // Assign the script variable with the actual script functions
-            self.script = eval(code);
+            self.call = eval(code);
         }
     }
 }
 
 // Runs the script attached to an entity
-// type is the function type that should be run (onCreate, onRender, onDelete)
+// type is the function type that should be run (onCreate, onTick, onDelete)
 //  Required components:
 //  - Script
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.invoke = (type, thisEntity) =>
+GDev.ECS.Systems.invoke = function(type, thisEntity)
 {
-    if(thisEntity.components.script)
+    if(thisEntity.components.Script)
     {
         switch(type)
         {
             case "onCreate":
-                thisEntity.script.onCreate();
+                thisEntity.call.onCreate();
                 break;
             case "onTick":
-                thisEntity.script.onTick();
+                thisEntity.call.onTick();
                 break;
             case "onDelete":
-                thisEntity.script.onDelete();
+                thisEntity.call.onDelete();
                 break;
         }
     }
@@ -180,11 +180,11 @@ GDev.ECS.Systems.invoke = (type, thisEntity) =>
 //  Required components:
 //  - Scene
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.addEntityToScene = (sceneEntity, newEntity) =>
+GDev.ECS.Systems.addEntityToScene = function(sceneEntity, newEntity)
 {
-    if(sceneEntity.components.scene)
+    if(sceneEntity.components.Scene)
     {
-        sceneEntity.components.scene.entities[newEntity.id] = newEntity;
+        sceneEntity.components.Scene.entities[newEntity.id] = newEntity;
     }
 }
 
@@ -192,13 +192,13 @@ GDev.ECS.Systems.addEntityToScene = (sceneEntity, newEntity) =>
 //  Required components:
 //  - Scene
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.deleteEntityFromScene = (sceneEntity, entityToDelete) =>
+GDev.ECS.Systems.deleteEntityFromScene = function(sceneEntity, entityToDelete)
 {
-    if(sceneEntity.components.scene)
+    if(sceneEntity.components.Scene)
     {
         // before deleting the entity, call its user defined onDelete function
         GDev.ECS.Systems.invoke("onDelete", entityToDelete);
-        delete sceneEntity.components.scene.entities[entityToDelete.id];
+        delete sceneEntity.components.Scene.entities[entityToDelete.id];
     }
 }
 
@@ -206,9 +206,9 @@ GDev.ECS.Systems.deleteEntityFromScene = (sceneEntity, entityToDelete) =>
 //  Required components:
 //  - Scene
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.deleteScene = (sceneEntity) =>
+GDev.ECS.Systems.deleteScene = function(sceneEntity)
 {
-    if(sceneEntity.components.scene)
+    if(sceneEntity.components.Scene)
     {
         // If the scene entity has a script component
         // then call its user defined onDelete function
@@ -216,7 +216,7 @@ GDev.ECS.Systems.deleteScene = (sceneEntity) =>
 
         // And remove all entites from the scene (and also call their onDelete function)
         var entityToDelete;
-        for(var id in sceneEntity.components.scene.entities)
+        for(var id in sceneEntity.components.Scene.entities)
         {
             entityToDelete = entities[id];
             GDev.ECS.Systems.deleteEntityFromScene(sceneEntity, entityToDelete)
@@ -230,7 +230,7 @@ GDev.ECS.Systems.deleteScene = (sceneEntity) =>
 // Below are the System functions that should be called on every tick
 // and takes an entity as argument.
 // Therefore, they should be registered via:
-// GDev.composer.registerTickFunction(GDev.ECS.Systems.myFunction(thisEntity))
+// GDev.registerTickFunction(GDev.ECS.Systems.myFunction(thisEntity))
 //
 // ----------------------------------------------------------------------------
 
@@ -241,18 +241,18 @@ GDev.ECS.Systems.deleteScene = (sceneEntity) =>
 //  - Sprite
 //  - Transform
 // ----------------------------------------------------------------------------
-GDev.ECS.Systems.updateMouseListener = (thisEntity) =>
+GDev.ECS.Systems.updateMouseListener = function(thisEntity)
 {
-    if(thisEntity.components.mouseListener && thisEntity.components.sprite && thisEntity.components.transform)
+    if(thisEntity.components.MouseListener && thisEntity.components.Sprite && thisEntity.components.Transform)
     {
 
-        var spriteX = thisEntity.components.transform.x;
-        var spriteY = thisEntity.components.transform.y;
-        var spriteWidth = ImageWidth(thisEntity.components.sprite.image);
-        var spriteHeight = ImageHeight(thisEntity.components.sprite.image);
-        var isMidhandle = thisEntity.components.sprite.isMidHandle;
+        var spriteX = thisEntity.components.Transform.x;
+        var spriteY = thisEntity.components.Transform.y;
+        var spriteWidth = ImageWidth(thisEntity.components.Sprite.image);
+        var spriteHeight = ImageHeight(thisEntity.components.Sprite.image);
+        var isMidhandle = thisEntity.components.Sprite.isMidHandle;
 
-        thisEntity.components.mouseListener.isMouseHover = false;
+        thisEntity.components.MouseListener.isMouseHover = false;
 
         // Checking if mouse is hovering over the sprite
         if(isMidhandle)
@@ -261,7 +261,7 @@ GDev.ECS.Systems.updateMouseListener = (thisEntity) =>
             {
                 if(GDev.Keys.MouseY >= spriteY-spriteHeight/2 && GDev.Keys.MouseY <= spriteY + spriteHeight/2)
                 {
-                    thisEntity.components.mouseListener.isMouseHover = true;
+                    thisEntity.components.MouseListener.isMouseHover = true;
                 }
             }
         }
@@ -271,22 +271,22 @@ GDev.ECS.Systems.updateMouseListener = (thisEntity) =>
             {
                 if(GDev.Keys.MouseY >= spriteY && GDev.Keys.MouseY <= spriteY + spriteHeight)
                 {
-                    thisEntity.components.mouseListener.isMouseHover = true;
+                    thisEntity.components.MouseListener.isMouseHover = true;
                 }
             }
         }
 
-        if (thisEntity.components.mouseListener.isMouseHover)
+        if (thisEntity.components.MouseListener.isMouseHover)
         {
             //thisEntity.components.mouseListener.isMouseHit = GDev.Keys.MouseHit;
-            thisEntity.components.mouseListener.isMouseDown = GDev.Keys.MouseDown;
+            thisEntity.components.MouseListener.isMouseDown = GDev.Keys.MouseDown;
         }
         else
         {
             //thisEntity.components.mouseListener.isMouseHit = false;
-            thisEntity.components.mouseListener.isMouseDown = false;
+            thisEntity.components.MouseListener.isMouseDown = false;
         }
     }
 }
 // Register this function to the composer so it gets executed on every tick
-GDev.composer.registerTickFunction(GDev.ECS.Systems.updateMouseListener)
+GDev.registerTickFunction(GDev.ECS.Systems.updateMouseListener)

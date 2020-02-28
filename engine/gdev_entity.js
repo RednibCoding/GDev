@@ -55,11 +55,11 @@
 "use-strict"
 
 // ----------------------------------------------------------------------------
-GDev.ECS.Entity = (name) =>
+GDev.ECS.Entity = function(name)
 {
     // Check if the static id has been initialized
-    if (typeof Entity.prototype._id == "undefined"){Entity.prototype._id = 0;}
-    Entity.prototype._id++;
+    if (typeof GDev.ECS.Entity.prototype._id == "undefined"){GDev.ECS.Entity.prototype._id = 0;}
+    GDev.ECS.Entity.prototype._id++;
 
     // Static counter to keep track of entity count
     if (typeof GDev.ECS.Entity.prototype._count == "undefined"){GDev.ECS.Entity.prototype._count = 0;}
@@ -72,7 +72,7 @@ GDev.ECS.Entity = (name) =>
         return null;
     }
     this.name = name; // Must be unique
-    this.id = Entity.prototype._id;
+    this.id = GDev.ECS.Entity.prototype._id;
 
     // Component data will be stored here
     this.components = {};
@@ -81,7 +81,7 @@ GDev.ECS.Entity = (name) =>
 };
 
 // ----------------------------------------------------------------------------
-GDev.ECS.Entity.prototype.addComponent = (component) =>
+GDev.ECS.Entity.prototype.addComponent = function(component)
 {
     // Add component data to the entity
     // NOTE: The component must have a name property
@@ -90,7 +90,7 @@ GDev.ECS.Entity.prototype.addComponent = (component) =>
 };
 
 // ----------------------------------------------------------------------------
-GDev.ECS.Entity.prototype.removeComponent = (componentName) =>
+GDev.ECS.Entity.prototype.removeComponent = function(componentName)
 {
     // Remove component data by removing the reference to it.
     // Allows either a component function or a string of a component name to be
@@ -105,12 +105,10 @@ GDev.ECS.Entity.prototype.removeComponent = (componentName) =>
 
     // Remove component data by removing the reference to it
     delete this.components[name];
-
-    return this;
 };
 
 // ----------------------------------------------------------------------------
-GDev.ECS.Entity.prototype.dump = () =>
+GDev.ECS.Entity.prototype.dump = function()
 {
     // dump information about the entity
     console.log(JSON.stringify(this, null, 4));

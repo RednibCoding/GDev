@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+		<title>&#65279;</title>
+
+		<!-- Include deps -->
+		<link rel="stylesheet" href="deps/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="style.css">
+	</head>
+
+	<body>
+		<nav class="navbar navbar-light bg-light">
+			<a class="navbar-brand">
+			  <img src="favicon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+			  GDev Edit
+			</a>
+		</nav>
+
+		<div class="main-container">
+			<div class="row main-row">
+				<div class="col main-col">
+					<nav class="navbar navbar-dark mynav">
+						<span class="navbar-text">
+							Scenes
+						  </span>
+					</nav>
+				</div>
+				<div class="col-7 main-col">
+					Canvas goes here <br/>
+					(Dottet lines are just to show the area of each element) <br/>
+					(They should be removed in the final product :p)
+				</div>
+				<div class="col main-col">
+					<nav class="navbar navbar-dark mynav">
+						<span class="navbar-text">
+							Entities
+						  </span>
+					</nav>
+					<div class="row sub-row">
+						<!-- List Entities here -->
+					</div>
+					<nav class="navbar navbar-dark mynav">
+						<span class="navbar-text">
+							Components
+						  </span>
+					</nav>
+					<div class="row sub-row">
+						<!-- List Components here -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Include deps -->
+		<script src="deps/js/jquery-2.2.1.slim.min.js"></script>
+		<script src="deps/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+		<!-- Include eel.js - note this file will be generated at run time by eel -->
+		<script src="/eel.js"></script>
+		<script src="deps/js/jbb.js"></script>
+	</body>
+</html>

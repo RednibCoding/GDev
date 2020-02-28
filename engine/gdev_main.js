@@ -14,6 +14,8 @@ let GDev = {
         ClsColor: {r:0, g:0, b:0},
     },
 
+    systemTickFunctions: [],
+
     Keys: {
         MouseX:0,
         MouseY:0,
@@ -27,6 +29,18 @@ let GDev = {
         Systems: {}
     }
 };
+
+GDev.registerTickFunction = function(tickFunction)
+{
+    if(typeof tickFunction === "function")
+    {
+        this.systemTickFunctions.push(tickFunction);
+    }
+    else
+    {
+        console.log("Unable to register System-Tick-Function!")
+    }
+}
 
 GDev.Update = () =>
 {
