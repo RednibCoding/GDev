@@ -105,7 +105,7 @@ GDev.composer.attachScripts();
 GDev.composer.setStartScene();
 
 // Initialize the graphics context
-GraphicsFrom("graphicsCanvas", GDev.Properties.AppTitle);
+GraphicsFrom("canvas", GDev.Properties.AppTitle);
 //Graphics(800, 600, GDev.Properties.AppTitle);
 ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
 TFormFilter(false);
