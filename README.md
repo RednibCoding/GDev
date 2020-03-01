@@ -5,7 +5,7 @@ GDev is an easy to use, component based game engine based on the simple yet powe
 GDev comes bundled with GDev-Edit - an editor allowing you to quickly set up your scenes and objects. With the build-in code-editor, you can create scripts in a Javascript/JSON-like syntax and attach them to scenes and objects.
 
 <p align="center"> 
-<img src="doc/editor.png" width="80%">
+<img src="doc/gdev_edit.png" width="80%">
 </p>
 
 ## GDev consists of three sub projects:
