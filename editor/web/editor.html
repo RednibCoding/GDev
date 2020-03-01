@@ -11,53 +11,81 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-light bg-light">
+		<nav class="navbar header-bar">
 			<a class="navbar-brand">
-			  <img src="favicon.png" width="30" height="30" class="d-inline-block align-top" alt="">
-			  GDev Edit
+				<img src="favicon.png" width="35" height="35" alt="" class="d-inline-block align-center">
+				GDev Edit
 			</a>
 		</nav>
+		<div class="main">
+			<div class="d-flex flex-row align-items-stretch wrapper">
+				<div class="left">
+					<nav class="navbar mini-bar">Scenes</nav>
+					<div id="scene-entries">
+						<!-- Scene entries here -->
+					</div>
+				</div>
 
-		<div class="main-container">
-			<div class="row main-row">
-				<div class="col main-col">
-					<nav class="navbar navbar-dark mynav">
-						<span class="navbar-text">
-							Scenes
-						  </span>
+				<div class="mid ">
+					<nav class="navbar tab-bar">
+						<ul class="nav nav-tabs" role="tablist">
+							<li class="nav-item">
+							  <a class="nav-link active" id="tab-canvas" data-toggle="tab" href="#tab-content-canvas" role="tab" aria-controls="canvas"
+								aria-selected="true">Canvas</a>
+							</li>
+							<li class="nav-item">
+							  <a class="nav-link" data-toggle="tab" href="#tab-content-code" role="tab" aria-controls="code"
+								aria-selected="false">Code</a>
+							</li>
+						  </ul>
 					</nav>
-				</div>
-				<div class="col-7 main-col">
-					Canvas goes here <br/>
-					(Dottet lines are just to show the area of each element) <br/>
-					(They should be removed in the final product :p)
-				</div>
-				<div class="col main-col">
-					<nav class="navbar navbar-dark mynav">
-						<span class="navbar-text">
-							Entities
-						  </span>
-					</nav>
-					<div class="row sub-row">
-						<!-- List Entities here -->
+					<div class="mid-content">
+						<div class="d-flex flex-column" style="height: 100%;">
+							<div class="tab-content" style="height: 100%;">
+								<div class="tab-pane fade show active" style="height: 100%;" id="tab-content-canvas" role="tabpanel" aria-labelledby="tab-canvas">
+									Canvas
+									<canvas id="canvas" style="width: 1200px; height: 720px;"></canvas>
+								</div>
+								<div class="tab-pane fade" style="height: 100%;" id="tab-content-code" role="tabpanel" aria-labelledby="tab-code">
+									<div id="code-editor" style="height: 100%;">function foo(items) {
+										var x = "All this is syntax highlighted";
+										return x;
+									}</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<nav class="navbar navbar-dark mynav">
-						<span class="navbar-text">
-							Components
-						  </span>
-					</nav>
-					<div class="row sub-row">
-						<!-- List Components here -->
+				</div>
+				
+				<div class="right">
+					<nav class="navbar mini-bar">Entities</nav>
+					<div id="entity-entries">
+						<!-- Entity entries here -->
 					</div>
+					<nav class="navbar mini-bar">Components</nav>
+					<div id="component-entries">
+						<!-- Component entries here -->
+					</div>
+				
 				</div>
 			</div>
+			<nav class="navbar footer-bar"></nav>
 		</div>
+		
+
+
 
 		<!-- Include deps -->
 		<script src="deps/js/jquery-2.2.1.slim.min.js"></script>
 		<script src="deps/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+		<script src="deps/ace-min-noconflict/ace.js"></script>
 		<!-- Include eel.js - note this file will be generated at run time by eel -->
 		<script src="/eel.js"></script>
 		<script src="deps/js/jbb.js"></script>
+		<script>
+			var editor = ace.edit("code-editor");
+			editor.setTheme("ace/theme/dracula");
+			editor.session.setMode("ace/mode/javascript");
+		</script>
 	</body>
 </html>

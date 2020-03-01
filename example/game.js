@@ -15,13 +15,10 @@ GDev.composer = new GDev.Composer();
 GDev.Properties.AppTitle='GDevApp';
 GDev.Properties.CanvasWidth=800;
 GDev.Properties.CanvasHeight=600;
-GDev.Properties.ClsColor.r=0;
-GDev.Properties.ClsColor.g=0;
-GDev.Properties.ClsColor.b=0;
 
 // Create the start scene entity
 var scene1 = new GDev.ECS.Entity('scene1');
-scene1.addComponent(new GDev.ECS.Components.Scene(true));
+scene1.addComponent(new GDev.ECS.Components.Scene());
 GDev.composer.addScene(scene1);
 
 // Create an entity
@@ -101,13 +98,13 @@ GDev.composer.addEntityToScene(scene2,entity2);
 
 // Attach scripts to entites
 GDev.composer.attachScripts();
-// Set start scene
-GDev.composer.setStartScene();
 
 // Initialize the graphics context
 GraphicsFrom("canvas", GDev.Properties.AppTitle);
-//Graphics(800, 600, GDev.Properties.AppTitle);
-ClsColor(GDev.Properties.ClsColor.r, GDev.Properties.ClsColor.g, GDev.Properties.ClsColor.b);
+
+// Set start scene
+GDev.composer.setStartScene(scene1);
+
 TFormFilter(false);
 
 //GDev.Serialize(GDev.composer);

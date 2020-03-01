@@ -104,19 +104,11 @@ GDev.ECS.Components.Script = function(code = "")
 	]
 */
 // ----------------------------------------------------------------------------
-GDev.ECS.Components.Scene = function(isStartScene = false)
+GDev.ECS.Components.Scene = function()
 {
-	if(isStartScene !== true && isStartScene !== false)
-	{
-		console.error("isStartScene must be of type Boolean!")
-	}
-
 	this.bgRed = 0;
 	this.bgGreen = 0;
 	this.bgBlue = 0;
-
-	// Entry scene of the game
-	this.isStartScene = isStartScene;
 
 	// List of all entities in this scene
 	this.entities = {};

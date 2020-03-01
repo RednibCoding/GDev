@@ -1,35 +1,79 @@
-
-html, body {
+html,
+body {
+	background-color: #1E1E1E;
 	overflow: hidden;
-	width: 100%;
 	height: 100%;
-}
-
-.main-container {
-	width: 100%;
-	height: 100%;
-}
-
-.mynav {
-	background-color: #aa54fa;
 	width: 100%;
 }
 
-.main-row {
+.header-bar {
+	background-color: #333333;
+	color: #B1B1B1;
+}
+
+.footer-bar {
+	background-color: #007ACC;
+	color: #B1B1B1;
+	height: 25px;
+}
+
+.tab-bar {
+	background-color: #252526;
+	height: 50px;
+}
+
+.mini-bar {
+	background-color: #007ACC;
+	color: #ffffff;
+	height: 50px;
+}
+
+.nav-item {
+	background-color: #2D2D2D;
+	color: #919191;
+}
+
+.main {
+	height: 100%;
+}
+
+.wrapper {
+	height: calc(100% - 85px);
+}
+
+.left {
+	width: 20%;
+	min-width: 200px;
+}
+
+.mid {
+	width: 60%;
+}
+
+.mid-content{
 	width: 100%;
-	height: 100%;
-	padding: 0%;
-	margin: 0%;
+	height: calc(100% - 50px);
+	overflow: auto;
+	background-color: #000000;
+	color: #ffffff;
 }
 
-.sub-row {
-	height: 40%;
+.right {
+	width: 20%;
+	min-width: 200px;
 }
 
-.main-col {
+#scene-entries {
+	height: 50%;
+	overflow-y: auto;
+}
+
+#entity-entries {
+	height: 50%;
+	overflow-y: auto;
+}
+
+#component-entries {
 	height: 100%;
-	border:1px dotted black;
-	text-align: center;
-	padding: 0%;
-	margin: 0%;
+	overflow-y: auto;
 }

@@ -11,7 +11,6 @@ let GDev = {
         AppTitle:"GDevApp",
         CanvasWidth:800,
         CanvasHeight:600,
-        ClsColor: {r:0, g:0, b:0},
     },
 
     systemTickFunctions: [],

@@ -3,16 +3,11 @@
 		"apptitle": "MyTitle",
 		"canvasWidth": 800,
 		"canvasHeight": 600,
-		"startScene" : "scene1",
-		"clsColor": {
-			"red": 0,
-			"green": 0,
-			"blue": 0
-		}
+		"startScene" : "scene1"
 	},
 	"scenes": {
 		"scene1" : {
-			"width": 1000,
+			"width": 1200,
 			"height": 600,
 			"bgRed": 0,
 			"bgGreen": 0,
@@ -54,7 +49,8 @@
 				}
 			}
 		},
-		"scene2": {
+		"scene": {
+			"name": "scene2",
 			"bgRed": 0,
 			"bgGreen": 0,
 			"bgBlue": 0,

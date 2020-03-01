@@ -8,6 +8,8 @@ GDev.Composer = function()
 {
     // The scene that is currently active (shown)
     this.thisScene;
+    // Entry scene of the game
+    this.StartScene;
 
     // List of all scenes entities
     this.scenes = {};
@@ -99,7 +101,7 @@ GDev.Composer.prototype.loadSprites = function()
 
 // Set the start scene (the scene with "isStartScene=true" see: Component: Scene)
 // ----------------------------------------------------------------------------
-GDev.Composer.prototype.setStartScene = function()
+GDev.Composer.prototype.setStartScene = function(startScene)
 {
     var thisScene;
     for(var id in this.scenes)
@@ -107,7 +109,7 @@ GDev.Composer.prototype.setStartScene = function()
         thisScene = this.scenes[id];
         if(thisScene.components.Scene)
         {
-            if(thisScene.components.Scene.isStartScene)
+            if(thisScene.name === startScene.name)
             {
                 console.log("Start scene set to: '"+thisScene.name+"'")
                 this.goToScene(thisScene.name);
@@ -129,6 +131,8 @@ GDev.Composer.prototype.goToScene = function(sceneName)
     if(scene.components.Scene)
     {
         this.thisScene = scene;
+        // Set the clear color to the scenes background color
+        ClsColor(this.thisScene.bgRed, this.thisScene.bgGreen, this.thisScene.bgBlue)
         // Call onCreate scripts of scene and it's entities
         this.invokeOnCreate();
         console.log("Switched to scene: '"+this.thisScene.name+"'")
