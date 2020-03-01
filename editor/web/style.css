@@ -28,6 +28,12 @@ body {
 	height: 50px;
 }
 
+.entry-bar {
+	background-color: #383838;
+	color: #ffffff;
+	height: 30px;
+}
+
 .nav-item {
 	background-color: #2D2D2D;
 	color: #919191;
@@ -64,16 +70,28 @@ body {
 }
 
 #scene-entries {
-	height: 50%;
-	overflow-y: auto;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding-left: 26px;
 }
 
 #entity-entries {
 	height: 50%;
-	overflow-y: auto;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding-left: 26px;
 }
 
 #component-entries {
-	height: 100%;
-	overflow-y: auto;
+	height: 35%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	padding-left: 26px;
+}
+
+.list-group-item {
+	background-color: #383838;
+	color: #ffffff;
+	width: 100%;
 }

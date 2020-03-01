@@ -14,15 +14,18 @@
 		<nav class="navbar header-bar">
 			<a class="navbar-brand">
 				<img src="favicon.png" width="35" height="35" alt="" class="d-inline-block align-center">
-				GDev Edit
+				<span class="d-inline-block align-center">GDev Edit</span>
 			</a>
 		</nav>
 		<div class="main">
 			<div class="d-flex flex-row align-items-stretch wrapper">
 				<div class="left">
 					<nav class="navbar mini-bar">Scenes</nav>
-					<div id="scene-entries">
-						<!-- Scene entries here -->
+					<div id="scene-entries" class="row">
+						<div id="scene-list" class="list-group col">
+							<!-- Scene entries here -->
+							<!-- Add them via js function "addSceneItem(id, name, img)" -->
+						</div>
 					</div>
 				</div>
 
@@ -59,12 +62,18 @@
 				
 				<div class="right">
 					<nav class="navbar mini-bar">Entities</nav>
-					<div id="entity-entries">
-						<!-- Entity entries here -->
+					<div id="entity-entries" class="row">
+						<div id="entity-list" class="list-group col">
+							<!-- Entity entries here -->
+							<!-- Add them via js function "addEntityItem(id, name, img)" -->
+						</div>
 					</div>
 					<nav class="navbar mini-bar">Components</nav>
-					<div id="component-entries">
-						<!-- Component entries here -->
+					<div id="component-entries" class="row">
+						<div id="component-list" class="list-group col">
+							<!-- Component entries here -->
+							<!-- Add them via js function "addComponentItem(id, name, img)" -->
+						</div>
 					</div>
 				
 				</div>
@@ -79,12 +88,14 @@
 		<script src="deps/js/jquery-2.2.1.slim.min.js"></script>
 		<script src="deps/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
 		<script src="deps/ace-min-noconflict/ace.js"></script>
+		<script src="deps/js/sortable.js"></script>
 		<!-- Include eel.js - note this file will be generated at run time by eel -->
 		<script src="/eel.js"></script>
 		<script src="deps/js/jbb.js"></script>
+		<script src="editor.js"></script>
 		<script>
 			var editor = ace.edit("code-editor");
-			editor.setTheme("ace/theme/dracula");
+			editor.setTheme("ace/theme/monokai");
 			editor.session.setMode("ace/mode/javascript");
 		</script>
 	</body>
